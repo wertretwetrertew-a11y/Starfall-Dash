@@ -4958,7 +4958,7 @@ function spawnBoss(bossId) {
         y: -b.size - 20,
         size: b.size,
         hp: b.hp, maxHp: b.hp,
-        phase: 1, wobble: 0, shootTimer: 60, specialTimer: 0,
+        phase: 1, phaseSeen: 1, wobble: 0, shootTimer: 60, specialTimer: 0,
         rotation: 0, hitFlash: 0, entering: true, defeatTimer: 0, attackCharge: 0, attackPulse: 0,
         reward: b.reward
     };
@@ -6575,6 +6575,13 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
         if (hpPct <= 0.33) boss.phase = 3;
         else if (hpPct <= 0.66) boss.phase = 2;
         else boss.phase = 1;
+        if (boss.phase !== boss.phaseSeen) {
+            boss.phaseSeen = boss.phase;
+            boss.attackPulse = 1;
+            sfSpawnAttackBurst(boss.x + boss.size/2, boss.y + boss.size/2, boss.size*.8, boss.type.glow || '#7cecff', 'phase');
+            sfSpawnBossAttackFX(boss, boss.id);
+            screenShake = Math.max(screenShake, 8 + boss.phase*4);
+        }
 
         if (boss.id === 'dragon') {
             boss.x = canvas.width / 2 - boss.size / 2 + Math.sin(boss.wobble * 0.5) * 150;
@@ -6584,8 +6591,15 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
                 boss.shootTimer = 60 - boss.phase * 12;
                 sfSpawnBossAttackFX(boss,'dragon');
                 var dbx = boss.x + boss.size / 2, dby = boss.y + boss.size / 2;
-                for (var d2 = -boss.phase; d2 <= boss.phase; d2++) {
-                    spawnEnemyBullet(dbx, dby + 20, d2 * 1.5, 3.5, { color: '#ff5252', size: 9 });
+                var dragonCount = boss.phase === 1 ? 3 : (boss.phase === 2 ? 5 : 7);
+                for (var d2 = 0; d2 < dragonCount; d2++) {
+                    var dAng = Math.PI/2 + (d2-(dragonCount-1)/2) * (boss.phase === 3 ? .16 : .2);
+                    var dSpeed = boss.phase === 3 ? 4.2 : 3.5;
+                    spawnEnemyBullet(dbx, dby + 20, Math.cos(dAng)*dSpeed, Math.sin(dAng)*dSpeed, { color: '#ff5252', size: boss.phase === 3 ? 11 : 9, life: 200 });
+                }
+                if (boss.phase >= 2) {
+                    spawnEnemyBullet(dbx - boss.size*.25, dby + 10, -1.2, 3.4, { color: '#ff884d', size: 7, homing: boss.phase === 3 ? .012 : .006 });
+                    spawnEnemyBullet(dbx + boss.size*.25, dby + 10, 1.2, 3.4, { color: '#ff884d', size: 7, homing: boss.phase === 3 ? .012 : .006 });
                 }
             }
         } else if (boss.id === 'titan') {
@@ -6596,8 +6610,17 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
                 boss.shootTimer = 80 - boss.phase * 15;
                 sfSpawnBossAttackFX(boss,'titan');
                 var tbx = boss.x + boss.size / 2, tby = boss.y + boss.size / 2;
-                for (var t1 = -2; t1 <= 2; t1++) {
-                    spawnEnemyBullet(tbx, tby + 20, t1 * 1.2, 2.5, { color: '#00e5ff', size: 10 });
+                var titanCount = boss.phase === 1 ? 5 : (boss.phase === 2 ? 7 : 9);
+                for (var t1 = 0; t1 < titanCount; t1++) {
+                    var tOff = t1-(titanCount-1)/2;
+                    var tSpeed = boss.phase === 3 ? 3.4 : 2.5;
+                    spawnEnemyBullet(tbx, tby + 20, tOff * (boss.phase === 3 ? 1.05 : 1.2), tSpeed, { color: '#00e5ff', size: boss.phase === 3 ? 11 : 10 });
+                }
+                if (boss.phase >= 2) {
+                    for (var tb = 0; tb < boss.phase; tb++) {
+                        var side = tb % 2 ? 1 : -1;
+                        spawnEnemyBullet(tbx + side*boss.size*.32, tby, side*(1.8+tb*.4), 3.1, { color: '#66f5ff', size: 7 });
+                    }
                 }
             }
         } else if (boss.id === 'devourer') {
@@ -6615,9 +6638,18 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
                 boss.shootTimer = 50 - boss.phase * 10;
                 sfSpawnBossAttackFX(boss,'devourer');
                 var vbx = boss.x + boss.size / 2, vby = boss.y + boss.size / 2;
-                for (var v1 = 0; v1 < 12; v1++) {
-                    var va = (v1 / 12) * Math.PI * 2 + boss.wobble;
-                    spawnEnemyBullet(vbx, vby, Math.cos(va) * 2.5, Math.sin(va) * 2.5, { color: '#e040fb', size: 9 });
+                var voidCount = boss.phase === 1 ? 12 : (boss.phase === 2 ? 16 : 20);
+                var voidSpeed = boss.phase === 3 ? 3.15 : 2.5;
+                for (var v1 = 0; v1 < voidCount; v1++) {
+                    var va = (v1 / voidCount) * Math.PI * 2 + boss.wobble * (boss.phase === 3 ? 1.8 : 1);
+                    spawnEnemyBullet(vbx, vby, Math.cos(va) * voidSpeed, Math.sin(va) * voidSpeed, { color: '#e040fb', size: boss.phase === 3 ? 10 : 9 });
+                }
+                if (boss.phase >= 2) {
+                    var spiral = boss.wobble * 2;
+                    for (var vs = 0; vs < boss.phase*2; vs++) {
+                        var sa = spiral + vs * Math.PI;
+                        spawnEnemyBullet(vbx, vby, Math.cos(sa)*3.2, Math.sin(sa)*3.2, { color: '#b86cff', size: 6, homing: boss.phase === 3 ? .01 : .004 });
+                    }
                 }
             }
         }
