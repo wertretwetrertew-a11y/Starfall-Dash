@@ -2642,6 +2642,34 @@ var coreBonusCache = {
 })();
 
 console.log('✓ Часть 2/4 загружена');
+
+/* Global render bridge: keeps coin rendering available before gameplay boot. */
+window.drawCoins = function drawCoins() {
+    var s = getSave();
+    var theme = THEMES[s.equippedTheme] || THEMES.cosmos;
+    for (var ci = 0; ci < coins.length; ci++) {
+        var c = coins[ci];
+        var isBig = c.value >= 5;
+        ctx.save();
+        ctx.shadowColor = isBig ? '#ff5c7a' : theme.glow;
+        ctx.shadowBlur = isBig ? 18 : 12;
+        var scaleX = Math.abs(Math.cos(c.phase));
+        var scaleY = Math.abs(Math.cos(c.phase * 0.5) * 0.3 + 0.7);
+        ctx.translate(c.x + c.size / 2, c.y + c.size / 2);
+        ctx.scale(scaleX, scaleY);
+        ctx.fillStyle = getCoinGradient(isBig);
+        ctx.beginPath(); ctx.arc(0, 0, c.size / 2, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        if (c.value > 1) {
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 11px Segoe UI, Arial';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = '#000'; ctx.shadowBlur = 3;
+            ctx.fillText('×' + c.value, c.x + c.size / 2, c.y + c.size / 2 + 4);
+            ctx.shadowBlur = 0;
+        }
+    }
+}
 </script>
 
 <script>
