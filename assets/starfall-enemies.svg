@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="256" viewBox="0 0 1024 256">
+<defs>
+<radialGradient id="r"><stop stop-color="#fff"/><stop offset=".18" stop-color="#ff7a8f"/><stop offset=".52" stop-color="#9d164d"/><stop offset="1" stop-color="#050711"/></radialGradient>
+<radialGradient id="b"><stop stop-color="#fff"/><stop offset=".18" stop-color="#64edff"/><stop offset=".52" stop-color="#1767a5"/><stop offset="1" stop-color="#050711"/></radialGradient>
+<radialGradient id="p"><stop stop-color="#fff"/><stop offset=".18" stop-color="#d17aff"/><stop offset=".55" stop-color="#5420a2"/><stop offset="1" stop-color="#050711"/></radialGradient>
+<linearGradient id="m" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb34d"/><stop offset=".4" stop-color="#a93b17"/><stop offset="1" stop-color="#070a12"/></linearGradient>
+<filter id="g"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<!-- fast crawler -->
+<g transform="translate(128 128)" stroke="#ff5c7a" stroke-linecap="round" stroke-linejoin="round">
+<g fill="none" stroke-width="7"><path d="M-28 18L-70 55M-12 25L-38 73M28 18L70 55M12 25L38 73M-38-4L-78-18M38-4L78-18"/></g>
+<path d="M-54 5Q-43-53 0-60Q43-53 54 5L31 50Q0 72-31 50Z" fill="url(#r)" stroke-width="6"/>
+<path d="M-34-18Q0-43 34-18L25 15Q0 30-25 15Z" fill="#130b20" stroke="#ff9aaa" stroke-width="3"/>
+<circle cx="0" cy="0" r="12" fill="#fff" filter="url(#g)"/><circle cx="0" cy="0" r="7" fill="#ff1744"/>
+</g>
+<!-- aerial hunter -->
+<g transform="translate(384 128)" stroke="#54ddff" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-30 5L-91-28-65 3-94 35-28 18M30 5L91-28 65 3 94 35 28 18" fill="#09233b" stroke-width="6"/>
+<path d="M-53-7Q0-63 53-7L35 45Q0 62-35 45Z" fill="url(#b)" stroke-width="6"/>
+<path d="M-29-18Q0-39 29-18L20 11Q0 24-20 11Z" fill="#071321" stroke="#8cf6ff" stroke-width="3"/>
+<circle cx="0" cy="0" r="10" fill="#fff" filter="url(#g)"/><circle cx="0" cy="0" r="6" fill="#00e5ff"/>
+<path d="M-7 55L0 82 7 55" fill="#00e5ff" filter="url(#g)"/>
+</g>
+<!-- purple assassin -->
+<g transform="translate(640 128)" stroke="#e29aff" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-42-2L-91-42-70 4-91 48-38 20M42-2L91-42 70 4 91 48 38 20" fill="#170c32" stroke-width="6"/>
+<path d="M0-79L53-12 38 52 0 72-38 52-53-12Z" fill="url(#p)" stroke-width="6"/>
+<path d="M-31-18L0-42 31-18 20 10 0 22-20 10Z" fill="#0c0820" stroke="#efc4ff" stroke-width="3"/>
+<circle cx="0" cy="-2" r="11" fill="#fff" filter="url(#g)"/><circle cx="0" cy="-2" r="6" fill="#d500f9"/>
+<path d="M-21 58L-38 83M21 58L38 83" stroke-width="8"/>
+</g>
+<!-- armored tank -->
+<g transform="translate(896 128)" stroke="#ffb84d" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-56-24L-92-3-65 18M56-24L92-3 65 18" fill="#1b1420" stroke-width="7"/>
+<path d="M-63-4Q-52-65 0-72Q52-65 63-4L45 56Q0 78-45 56Z" fill="url(#m)" stroke-width="7"/>
+<path d="M-43-19Q0-50 43-19L32 27Q0 45-32 27Z" fill="#1b1010" stroke="#ffd37a" stroke-width="4"/>
+<circle cx="0" cy="7" r="18" fill="#fff" filter="url(#g)"/><circle cx="0" cy="7" r="10" fill="#ff6d00"/>
+<path d="M-42 47L-64 74M42 47L64 74" stroke-width="12"/>
+<path d="M-18-67L0-88 18-67" fill="#ff7b00" filter="url(#g)" stroke-width="3"/>
+</g>
+</svg>
