@@ -33,7 +33,6 @@
         display: flex; flex-direction: column;
         align-items: center; justify-content: center; z-index: 1;
     }
-    /* ===== HUD ===== */
     #hud {
         position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
         display: flex; align-items: center; padding: 6px 12px;
@@ -86,6 +85,7 @@
     #hud-mode.survival { background: rgba(255,92,122,0.3); border-color: #ff5c7a; color: #ff5c7a; }
     #hud-mode.timeattack { background: rgba(255,217,61,0.3); border-color: #ffd93d; color: #ffd93d; }
     #hud-mode.hardcore { background: rgba(156,107,255,0.3); border-color: #9c6bff; color: #9c6bff; }
+    #hud-mode.rogue { background: rgba(124,255,178,0.3); border-color: #7cffb2; color: #7cffb2; }
     #hud-timer {
         font-size: 16px; font-weight: 900; color: #4fc3f7;
         text-shadow: 0 0 8px rgba(79,195,247,0.8);
@@ -116,8 +116,6 @@
     .buff-dot.chest { background: rgba(255,152,0,0.3); border-color: #ff9800; }
     .buff-dot.chest::after { color: #ff9800; }
     @keyframes buffPulse { from{transform:scale(1);} to{transform:scale(1.12);} }
-
-    /* ===== АПГРЕЙД-СТРИП (новое) ===== */
     #upgrade-strip {
         position: absolute; bottom: 8px; left: 50%;
         transform: translateX(-50%);
@@ -145,7 +143,6 @@
         font-size: 9px; color: #fff; background: rgba(0,0,0,0.5);
         padding: 1px 5px; border-radius: 8px;
     }
-
     canvas {
         background: linear-gradient(180deg,#0f0f2e 0%,#1a1a3e 50%,#0a0a1a 100%);
         border: 2px solid rgba(138,180,255,0.3);
@@ -168,7 +165,6 @@
     #level-toast .lt-title { font-size: 16px; margin-bottom: 2px; }
     #level-toast .lt-reward { font-size: 12px; color: #ffd93d; font-weight: 700; }
     #level-toast .lt-mult { font-size: 11px; color: #b0b8d0; font-weight: 600; margin-top: 2px; }
-
     #mobile-controls {
         position: absolute; bottom: 0; left: 0;
         width: 100%; height: 200px; display: none;
@@ -224,8 +220,6 @@
         #hud-timer { font-size: 13px; min-width: 45px; }
         #upgrade-strip { bottom: 175px; font-size: 10px; padding: 4px 8px; }
     }
-
-    /* ===== ЭКРАНЫ ===== */
     #login-screen, #start-screen, #mode-screen, #core-screen, #class-screen {
         position: absolute; inset: 0;
         display: flex; flex-direction: column;
@@ -272,7 +266,7 @@
     }
     .profile-card .pc-info { flex: 1; }
     .profile-card .pc-nick { font-size: 17px; font-weight: 800; color: #fff; }
-    .profile-card .pc-stats { display: flex; gap: 12px; font-size: 12px; color: #8ab4ff; font-weight: 700; }
+    .profile-card .pc-stats { display: flex; gap: 12px; font-size: 12px; color: #8ab4ff; font-weight: 700; flex-wrap: wrap; }
     .profile-card .pc-lock { font-size: 18px; color: #ffd93d; }
     .profile-card .pc-delete {
         position: absolute; top: 8px; right: 8px;
@@ -281,7 +275,6 @@
     }
     .profile-card .pc-delete:hover { opacity: 1; background: rgba(255,92,122,0.2); }
     .profile-card.new-profile { border-style: dashed; background: rgba(79,195,247,0.05); }
-
     #create-profile-modal, #password-modal {
         position: absolute; inset: 0; display: none;
         align-items: center; justify-content: center;
@@ -345,8 +338,6 @@
         border: 1.5px solid rgba(138,180,255,0.25);
     }
     .create-error { color: #ff5c7a; font-size: 12px; font-weight: 700; text-align: center; min-height: 16px; margin-top: 8px; }
-
-    /* ===== ГЛАВНОЕ МЕНЮ ===== */
     .profile-badge {
         position: absolute; top: 16px; right: 16px;
         display: flex; align-items: center; gap: 8px;
@@ -371,7 +362,6 @@
     .stats-line .sl-item.lvl .sl-val { color: #9c6bff; }
     .stats-line .sl-item.crystal .sl-val { color: #e040fb; }
     .stats-line .sl-item.shards .sl-val { color: #7cffb2; }
-
     .menu-grid {
         display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 12px; width: min(460px, 92vw);
@@ -414,8 +404,6 @@
         cursor: pointer; font-family: inherit;
     }
     .reset-link { color: #ff5c7a; font-size: 11px; text-decoration: underline; cursor: pointer; opacity: 0.6; }
-
-    /* ===== ЭКРАН ЯДРА ===== */
     .core-header {
         display: flex; align-items: center; justify-content: space-between;
         width: min(700px, 96vw); margin-top: 10px;
@@ -443,7 +431,6 @@
     .core-wallet .cw-gold { color: #ffd93d; }
     .core-wallet .cw-crystals { color: #e040fb; }
     .core-wallet .cw-shards { color: #7cffb2; }
-
     .core-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -511,8 +498,6 @@
         flex: 0 0 auto; padding: 10px 16px;
     }
     .core-btn.crystal:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* ===== МОДАЛКИ ===== */
     #settings-modal, #help-modal, #profile-menu-modal,
     #shop-modal, #case-modal, #daily-modal,
     #pause-modal, #gameover-modal,
@@ -538,7 +523,6 @@
     #shop-modal.open, #case-modal.open, #daily-modal.open,
     #pause-modal.open, #gameover-modal.open,
     #upgrade-modal.open, #wave-modal.open, #relic-modal.open { display: flex; }
-
     .generic-modal {
         max-width: 460px; width: 100%;
         background: linear-gradient(180deg, rgba(30,30,60,0.9), rgba(15,15,30,0.9));
@@ -574,8 +558,6 @@
     }
     .help-grid div { display: flex; align-items: center; gap: 8px; color: #b0b8d0; }
     .help-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
-
-    /* ===== МОДАЛКА АПГРЕЙДОВ (Roguelike) ===== */
     .upgrade-window {
         max-width: 760px; width: 100%;
         background: linear-gradient(180deg, rgba(20,20,50,0.98), rgba(10,10,25,0.98));
@@ -619,16 +601,10 @@
         box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
     .upgrade-card.common { border-color: rgba(180,180,180,0.6); }
-    .upgrade-card.common:hover { box-shadow: 0 12px 30px rgba(180,180,180,0.4); }
     .upgrade-card.rare { border-color: #4fc3f7; }
-    .upgrade-card.rare:hover { box-shadow: 0 12px 30px rgba(79,195,247,0.5); }
     .upgrade-card.epic { border-color: #b388ff; }
-    .upgrade-card.epic:hover { box-shadow: 0 12px 30px rgba(179,136,255,0.5); }
     .upgrade-card.legendary { border-color: #ffd93d; }
-    .upgrade-card.legendary:hover { box-shadow: 0 12px 30px rgba(255,217,61,0.5); }
     .upgrade-card.mythic { border-color: #ff5c7a; }
-    .upgrade-card.mythic:hover { box-shadow: 0 12px 30px rgba(255,92,122,0.6); }
-
     .upgrade-rarity {
         position: absolute; top: 8px; right: 8px;
         font-size: 9px; font-weight: 900;
@@ -640,11 +616,8 @@
     .upgrade-rarity.epic { background: rgba(156,107,255,0.25); color: #b388ff; }
     .upgrade-rarity.legendary { background: rgba(255,217,61,0.3); color: #ffd93d; }
     .upgrade-rarity.mythic { background: rgba(255,92,122,0.35); color: #ff5c7a; }
-
     .upgrade-icon { font-size: 48px; margin-top: 6px; }
-    .upgrade-name {
-        font-size: 16px; font-weight: 800; color: #fff;
-    }
+    .upgrade-name { font-size: 16px; font-weight: 800; color: #fff; }
     .upgrade-desc {
         font-size: 12px; color: #b0b8d0; font-weight: 600;
         line-height: 1.4; flex: 1;
@@ -677,8 +650,6 @@
     }
     .upgrade-reroll-btn:disabled { opacity: 0.35; cursor: not-allowed; }
     .upgrade-reroll-btn:hover:not(:disabled) { background: rgba(255,217,61,0.25); }
-
-    /* ===== БАННЕР ВОЛНЫ ===== */
     #wave-modal .wave-banner {
         max-width: 620px; width: 100%;
         background: linear-gradient(180deg, rgba(30,10,40,0.98), rgba(10,5,20,0.98));
@@ -711,8 +682,6 @@
         color: #fff; cursor: pointer; font-family: inherit;
         letter-spacing: 2px;
     }
-
-    /* ===== ВЫБОР РЕЛИКВИИ ===== */
     .relic-window {
         max-width: 700px; width: 100%;
         background: linear-gradient(180deg, rgba(30,20,55,0.98), rgba(15,10,30,0.98));
@@ -753,8 +722,6 @@
     .relic-icon { font-size: 52px; }
     .relic-name { font-size: 16px; font-weight: 800; color: #ffd93d; }
     .relic-desc { font-size: 12px; color: #b0b8d0; font-weight: 600; line-height: 1.4; }
-
-    /* ===== МАГАЗИН ===== */
     .shop-container {
         max-width: 820px; width: 100%;
         background: linear-gradient(180deg, rgba(30,30,60,0.9), rgba(15,15,30,0.9));
@@ -910,8 +877,6 @@
         display: flex; align-items: center; justify-content: center;
         z-index: 5;
     }
-
-    /* ===== КЕЙС ===== */
     .case-window {
         max-width: 500px; width: 100%;
         background: linear-gradient(180deg, rgba(30,30,60,0.9), rgba(15,15,30,0.9));
@@ -962,8 +927,6 @@
         cursor: pointer; font-family: inherit;
     }
     .case-close-btn:disabled { opacity: 0.5; }
-
-    /* ===== DAILY ===== */
     .daily-window {
         max-width: 500px; width: 100%;
         background: linear-gradient(180deg, rgba(30,30,60,0.9), rgba(15,15,30,0.9));
@@ -997,8 +960,6 @@
         cursor: pointer; font-family: inherit;
     }
     .daily-claim-btn:disabled { opacity: 0.5; }
-
-    /* ===== POPUP ДОСТИЖЕНИЙ ===== */
     #achievement-popup {
         position: fixed; top: 20px; right: -400px;
         max-width: 340px;
@@ -1015,8 +976,6 @@
     #achievement-popup .ap-title { font-size: 10px; color: #ffd93d; text-transform: uppercase; font-weight: 800; }
     #achievement-popup .ap-name { font-size: 14px; color: #fff; font-weight: 800; }
     #achievement-popup .ap-reward { font-size: 11px; color: #7cffb2; font-weight: 700; }
-
-    /* ===== TOAST ===== */
     #toast {
         position: fixed; top: 50%; left: 50%;
         transform: translate(-50%, -50%) scale(0.7);
@@ -1038,8 +997,6 @@
     #toast.info { background: linear-gradient(135deg, rgba(79,195,247,0.9), rgba(33,150,243,0.9)); color: #fff; border: 2px solid rgba(138,180,255,0.6); }
     #toast.legendary { background: linear-gradient(135deg, rgba(255,217,61,0.95), rgba(255,152,0,0.95)); color: #1a0a2e; border: 2px solid #fff59d; }
     #toast.epic { background: linear-gradient(135deg, rgba(156,107,255,0.95), rgba(124,77,255,0.95)); color: #fff; border: 2px solid #b388ff; }
-
-    /* ===== MODE SCREEN ===== */
     .mode-header {
         display: flex; align-items: center; justify-content: space-between;
         width: min(600px, 96vw); margin-top: 20px;
@@ -1093,8 +1050,6 @@
         from { filter: drop-shadow(0 0 8px #7cffb2); }
         to { filter: drop-shadow(0 0 20px #7cffb2); }
     }
-
-    /* ===== ЭКРАН ВЫБОРА КЛАССА ===== */
     .class-header {
         display: flex; align-items: center; justify-content: space-between;
         width: min(800px, 96vw); margin-top: 20px;
@@ -1159,7 +1114,6 @@
         font-size: 11px; color: #ff5c7a; font-weight: 700;
         margin-top: 6px;
     }
-
     .hidden { display: none !important; }
 </style>
 </head>
@@ -1210,14 +1164,12 @@
         </div>
     </div>
 
-    <!-- ЭКРАН ВХОДА -->
     <div id="login-screen">
         <h1>✦ Starfall Dash ✦<small>ROGUELIKE 2.6</small></h1>
         <div class="login-sub">👤 Кто играет?</div>
         <div id="profiles-list"></div>
     </div>
 
-    <!-- СОЗДАНИЕ ПРОФИЛЯ -->
     <div id="create-profile-modal">
         <div class="create-window">
             <h2>👤 Новый игрок</h2>
@@ -1241,7 +1193,6 @@
         </div>
     </div>
 
-    <!-- ВВОД ПАРОЛЯ -->
     <div id="password-modal">
         <div class="create-window">
             <h2>🔒 Вход в профиль</h2>
@@ -1257,7 +1208,6 @@
         </div>
     </div>
 
-    <!-- ВЫБОР РЕЖИМА -->
     <div id="mode-screen" class="hidden">
         <div class="mode-header">
             <button class="mode-back" id="mode-back">← Назад</button>
@@ -1298,7 +1248,6 @@
         </div>
     </div>
 
-    <!-- ВЫБОР КЛАССА -->
     <div id="class-screen" class="hidden">
         <div class="class-header">
             <button class="mode-back" id="class-back">← Назад</button>
@@ -1308,7 +1257,6 @@
         <div class="class-grid" id="class-grid"></div>
     </div>
 
-    <!-- ЭКРАН ЯДРА -->
     <div id="core-screen" class="hidden">
         <div class="core-header">
             <button class="core-back" id="core-back">← Назад</button>
@@ -1323,7 +1271,6 @@
         <div class="core-grid" id="core-grid"></div>
     </div>
 
-    <!-- ГЛАВНОЕ МЕНЮ -->
     <div id="start-screen" class="hidden">
         <div class="profile-badge" id="profile-badge">
             <span class="pb-avatar">🎮</span>
@@ -1378,7 +1325,7 @@
             <button class="menu-tile ach" id="tile-ach">
                 <div class="mt-icon">🏆</div>
                 <div class="mt-label">ДОСТИЖЕНИЯ</div>
-                <div class="mt-sub">23 награды</div>
+                <div class="mt-sub">28 наград</div>
             </button>
             <button class="menu-tile daily" id="tile-daily">
                 <div class="mt-icon">🎁</div>
@@ -1399,7 +1346,6 @@
         </div>
     </div>
 
-    <!-- НАСТРОЙКИ -->
     <div id="settings-modal">
         <div class="generic-modal">
             <h2>⚙️ Настройки</h2>
@@ -1427,7 +1373,6 @@
         </div>
     </div>
 
-    <!-- ПОМОЩЬ -->
     <div id="help-modal">
         <div class="generic-modal">
             <h2>❓ Как играть</h2>
@@ -1440,32 +1385,10 @@
                 ✨ <b>Осколки:</b> открывай новые карты апгрейдов<br>
                 💎 <b>Кристаллы:</b> за боссов, рекорды, первый забег дня
             </div>
-            <div style="font-size:13px;color:#8ab4ff;font-weight:700;margin-bottom:6px;">Монстры:</div>
-            <div class="help-grid">
-                <div><span class="help-dot" style="background:linear-gradient(#ff8aa0,#c62828)"></span>Обычный</div>
-                <div><span class="help-dot" style="background:linear-gradient(#a5d6ff,#1565c0)"></span>Летун</div>
-                <div><span class="help-dot" style="background:linear-gradient(#b388ff,#6a1b9a)"></span>Зигзаг</div>
-                <div><span class="help-dot" style="background:linear-gradient(#e0e0e0,#616161)"></span>Призрак</div>
-                <div><span class="help-dot" style="background:linear-gradient(#7cffb2,#1b5e20)"></span>Охотник</div>
-                <div><span class="help-dot" style="background:linear-gradient(#aed581,#33691e)"></span>Змейка</div>
-                <div><span class="help-dot" style="background:linear-gradient(#ffab91,#bf360c)"></span>Бомбер</div>
-                <div><span class="help-dot" style="background:linear-gradient(#ffd93d,#ff6f00)"></span>Сплиттер</div>
-                <div><span class="help-dot" style="background:linear-gradient(#8d6e63,#3e2723)"></span>Паук</div>
-                <div><span class="help-dot" style="background:linear-gradient(#b3e5fc,#0277bd)"></span>Ледяной</div>
-                <div><span class="help-dot" style="background:linear-gradient(#fff59d,#f57f17)"></span>Звезда</div>
-                <div><span class="help-dot" style="background:linear-gradient(#ff5252,#7f0000)"></span>Мини-босс</div>
-                <div><span class="help-dot" style="background:linear-gradient(#00e5ff,#0097a7)"></span>Кристалл</div>
-                <div><span class="help-dot" style="background:linear-gradient(#ff9800,#4e342e)"></span>Барьер</div>
-                <div><span class="help-dot" style="background:linear-gradient(#7c4dff,#1a0033)"></span>Телепорт</div>
-                <div><span class="help-dot" style="background:linear-gradient(#f44336,#b71c1c)"></span>Магнит</div>
-                <div><span class="help-dot" style="background:linear-gradient(#e040fb,#4a0072)"></span>Двойник</div>
-                <div><span class="help-dot" style="background:linear-gradient(#ff1744,#fff)"></span>Лазер</div>
-            </div>
             <button class="modal-btn ghost" style="display:block;margin:16px auto 0;width:100%;" id="help-close">Закрыть</button>
         </div>
     </div>
 
-    <!-- МЕНЮ ПРОФИЛЯ -->
     <div id="profile-menu-modal">
         <div class="generic-modal">
             <h2>👤 Профиль</h2>
@@ -1488,7 +1411,6 @@
         </div>
     </div>
 
-    <!-- МАГАЗИН -->
     <div id="shop-modal">
         <div class="shop-container">
             <div class="shop-header">
@@ -1511,7 +1433,6 @@
         </div>
     </div>
 
-    <!-- ПАУЗА -->
     <div id="pause-modal">
         <div class="generic-modal">
             <h2>⏸ Пауза</h2>
@@ -1526,7 +1447,6 @@
         </div>
     </div>
 
-    <!-- GAME OVER -->
     <div id="gameover-modal">
         <div class="generic-modal">
             <h2 id="go-title">💀 Игра окончена</h2>
@@ -1564,7 +1484,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА АПГРЕЙДОВ (ROGUELIKE) -->
     <div id="upgrade-modal">
         <div class="upgrade-window">
             <h2 id="upgrade-title">🎉 УРОВЕНЬ 2!</h2>
@@ -1576,7 +1495,6 @@
         </div>
     </div>
 
-    <!-- БАННЕР ВОЛНЫ -->
     <div id="wave-modal">
         <div class="wave-banner" id="wave-banner">
             <span class="wave-icon" id="wave-icon">⚠️</span>
@@ -1587,7 +1505,6 @@
         </div>
     </div>
 
-    <!-- ВЫБОР РЕЛИКВИИ (из сундука) -->
     <div id="relic-modal">
         <div class="relic-window">
             <h2>🎁 РЕЛИКВИЯ!</h2>
@@ -1599,7 +1516,6 @@
 
 <div id="toast"></div>
 
-<!-- КЕЙС -->
 <div id="case-modal">
     <div class="case-window" id="case-window">
         <div class="case-title" id="case-title">📦 Открытие кейса</div>
@@ -1612,7 +1528,6 @@
     </div>
 </div>
 
-<!-- DAILY -->
 <div id="daily-modal">
     <div class="daily-window">
         <h2>🎁 Ежедневный бонус</h2>
@@ -1622,7 +1537,6 @@
     </div>
 </div>
 
-<!-- POPUP ДОСТИЖЕНИЙ -->
 <div id="achievement-popup">
     <div class="ap-icon" id="ap-icon">🏆</div>
     <div>
@@ -1635,7 +1549,8 @@
 <script>
 // ==========================================================
 //   STARFALL DASH 2.6 «ROGUELIKE EVOLUTION» — ЧАСТЬ 2/4
-//   Константы • Миграция сейвов • Апгрейды • Реликвии • Классы
+//   Константы • Миграция • Апгрейды • Реликвии • Классы
+//   ⚠️ ВСЕ ФИКСЫ БАГОВ ВНЕДРЕНЫ
 // ==========================================================
 
 console.log('🚀 Starfall Dash 2.6 «Roguelike Evolution» — загрузка...');
@@ -1808,10 +1723,10 @@ var currentShopTab = 'skins';
 var currentProfile = null;
 var pendingProfile = null;
 var currentMode = 'classic';
-var selectedClass = 'scout'; // класс по умолчанию
+var selectedClass = 'scout';
 
 // ==========================================================
-//   РЕЖИМЫ ИГРЫ (добавлен roguelike)
+//   РЕЖИМЫ
 // ==========================================================
 var MODES = {
     rogue: {
@@ -1846,57 +1761,35 @@ var MODES = {
     }
 };
 
-// ==========================================================
-//   ЯДРО — 6 характеристик
-// ==========================================================
+// ===== ЯДРО =====
 var CORE_STATS = {
-    vitality: {
-        id:'vitality', name:'Живучесть', icon:'❤️', color:'#ff5c7a',
-        desc:'+1 HP за уровень',
-        basePrice: 100, maxLevel: 5,
+    vitality: { id:'vitality', name:'Живучесть', icon:'❤️', color:'#ff5c7a',
+        desc:'+1 HP за уровень', basePrice: 100, maxLevel: 5,
         effect: function(lvl) { return lvl; },
-        format: function(lvl) { return '+' + lvl + ' HP'; }
-    },
-    speed: {
-        id:'speed', name:'Скорость', icon:'⚡', color:'#7cffb2',
-        desc:'+5% к скорости',
-        basePrice: 120, maxLevel: 10,
+        format: function(lvl) { return '+' + lvl + ' HP'; } },
+    speed: { id:'speed', name:'Скорость', icon:'⚡', color:'#7cffb2',
+        desc:'+5% к скорости', basePrice: 120, maxLevel: 10,
         effect: function(lvl) { return 1 + lvl * 0.05; },
-        format: function(lvl) { return '+' + (lvl * 5) + '%'; }
-    },
-    magnet: {
-        id:'magnet', name:'Магнетизм', icon:'🧲', color:'#4fc3f7',
-        desc:'+15 радиус магнита',
-        basePrice: 150, maxLevel: 10,
+        format: function(lvl) { return '+' + (lvl * 5) + '%'; } },
+    magnet: { id:'magnet', name:'Магнетизм', icon:'🧲', color:'#4fc3f7',
+        desc:'+15 радиус магнита', basePrice: 150, maxLevel: 10,
         effect: function(lvl) { return lvl * 15; },
-        format: function(lvl) { return '+' + (lvl * 15); }
-    },
-    greed: {
-        id:'greed', name:'Жадность', icon:'🪙', color:'#ffd93d',
-        desc:'+5% золота за уровень',
-        basePrice: 200, maxLevel: 20,
+        format: function(lvl) { return '+' + (lvl * 15); } },
+    greed: { id:'greed', name:'Жадность', icon:'🪙', color:'#ffd93d',
+        desc:'+5% золота за уровень', basePrice: 200, maxLevel: 20,
         effect: function(lvl) { return 1 + lvl * 0.05; },
-        format: function(lvl) { return '+' + (lvl * 5) + '%'; }
-    },
-    combo: {
-        id:'combo', name:'Комбо-мастер', icon:'🔥', color:'#ff9800',
-        desc:'+10 кадров к комбо',
-        basePrice: 180, maxLevel: 10,
+        format: function(lvl) { return '+' + (lvl * 5) + '%'; } },
+    combo: { id:'combo', name:'Комбо-мастер', icon:'🔥', color:'#ff9800',
+        desc:'+10 кадров к комбо', basePrice: 180, maxLevel: 10,
         effect: function(lvl) { return lvl * 10; },
-        format: function(lvl) { return '+' + (lvl * 10) + ' кадр.'; }
-    },
-    luck: {
-        id:'luck', name:'Удача', icon:'✨', color:'#e040fb',
-        desc:'+2% шанс дропа',
-        basePrice: 250, maxLevel: 15,
+        format: function(lvl) { return '+' + (lvl * 10) + ' кадр.'; } },
+    luck: { id:'luck', name:'Удача', icon:'✨', color:'#e040fb',
+        desc:'+2% шанс дропа', basePrice: 250, maxLevel: 15,
         effect: function(lvl) { return lvl * 0.02; },
-        format: function(lvl) { return '+' + (lvl * 2) + '%'; }
-    }
+        format: function(lvl) { return '+' + (lvl * 2) + '%'; } }
 };
 
-// ==========================================================
-//   СКИНЫ
-// ==========================================================
+// ===== СКИНЫ =====
 var SKINS = {
     default: { id:'default', name:'Новичок', desc:'Стандартный', price:0, rarity:'common',
         colors:{ top:'#b3e5ff', bottom:'#2196f3', glow:'#4fc3f7' } },
@@ -2056,24 +1949,15 @@ var MONSTER_TYPES = {
 };
 
 var BOSS_TYPES = {
-    dragon: {
-        id: 'dragon', name: 'Космический дракон', icon: '🐉',
-        c1:'#ff8a80', c2:'#b71c1c', glow:'#ff5252',
-        size: 80, hp: 25, level: 5, shape: 'dragon',
-        phases: 3, reward: { gold: 500, crystals: 5, skin: 'dragon' }
-    },
-    titan: {
-        id: 'titan', name: 'Ледяной титан', icon: '❄️',
-        c1:'#b3e5fc', c2:'#0277bd', glow:'#00e5ff',
-        size: 90, hp: 40, level: 10, shape: 'titan',
-        phases: 3, reward: { gold: 1000, crystals: 10, skin: 'ice' }
-    },
-    devourer: {
-        id: 'devourer', name: 'Пожиратель звёзд', icon: '🕳',
-        c1:'#7c4dff', c2:'#1a0033', glow:'#e040fb',
-        size: 100, hp: 60, level: 15, shape: 'devourer',
-        phases: 3, reward: { gold: 2000, crystals: 15, skin: 'blackhole' }
-    }
+    dragon: { id:'dragon', name:'Космический дракон', icon:'🐉',
+        c1:'#ff8a80', c2:'#b71c1c', glow:'#ff5252', size:80, hp:25, level:5, shape:'dragon',
+        phases:3, reward:{ gold:500, crystals:5, skin:'dragon' } },
+    titan: { id:'titan', name:'Ледяной титан', icon:'❄️',
+        c1:'#b3e5fc', c2:'#0277bd', glow:'#00e5ff', size:90, hp:40, level:10, shape:'titan',
+        phases:3, reward:{ gold:1000, crystals:10, skin:'ice' } },
+    devourer: { id:'devourer', name:'Пожиратель звёзд', icon:'🕳',
+        c1:'#7c4dff', c2:'#1a0033', glow:'#e040fb', size:100, hp:60, level:15, shape:'devourer',
+        phases:3, reward:{ gold:2000, crystals:15, skin:'blackhole' } }
 };
 
 var DROP_STYLE = {
@@ -2131,36 +2015,21 @@ var CARDS = {
 
 var CASES = {
     common: { id:'common', name:'Обычный кейс', icon:'🥉', price:300, desc:'Скин + шанс на карту',
-        dropTable: [
-            { rarity:'common', chance:75 }, { rarity:'rare', chance:20 },
-            { rarity:'epic', chance:4 }, { rarity:'legendary', chance:1 }
-        ]
-    },
+        dropTable: [{ rarity:'common', chance:75 }, { rarity:'rare', chance:20 },
+                    { rarity:'epic', chance:4 }, { rarity:'legendary', chance:1 }] },
     rare: { id:'rare', name:'Редкий кейс', icon:'🥈', price:800, desc:'Скин + шанс на звук',
-        dropTable: [
-            { rarity:'common', chance:30 }, { rarity:'rare', chance:50 },
-            { rarity:'epic', chance:17 }, { rarity:'legendary', chance:2.5 },
-            { rarity:'mythic', chance:0.5 }
-        ]
-    },
+        dropTable: [{ rarity:'common', chance:30 }, { rarity:'rare', chance:50 },
+                    { rarity:'epic', chance:17 }, { rarity:'legendary', chance:2.5 },
+                    { rarity:'mythic', chance:0.5 }] },
     epic: { id:'epic', name:'Эпический кейс', icon:'🥇', price:2000, desc:'Скин + шанс на музыку',
-        dropTable: [
-            { rarity:'rare', chance:25 }, { rarity:'epic', chance:55 },
-            { rarity:'legendary', chance:17 }, { rarity:'mythic', chance:3 }
-        ]
-    },
+        dropTable: [{ rarity:'rare', chance:25 }, { rarity:'epic', chance:55 },
+                    { rarity:'legendary', chance:17 }, { rarity:'mythic', chance:3 }] },
     legendary: { id:'legendary', name:'Легендарный кейс', icon:'💎', price:4000, desc:'Топ-скин + карта + звук',
-        dropTable: [
-            { rarity:'rare', chance:5 }, { rarity:'epic', chance:30 },
-            { rarity:'legendary', chance:55 }, { rarity:'mythic', chance:10 }
-        ]
-    },
+        dropTable: [{ rarity:'rare', chance:5 }, { rarity:'epic', chance:30 },
+                    { rarity:'legendary', chance:55 }, { rarity:'mythic', chance:10 }] },
     mythic: { id:'mythic', name:'Мифический кейс', icon:'👑', price:10000, desc:'Гарантия mythic + всё',
-        dropTable: [
-            { rarity:'epic', chance:10 }, { rarity:'legendary', chance:40 },
-            { rarity:'mythic', chance:50 }
-        ]
-    }
+        dropTable: [{ rarity:'epic', chance:10 }, { rarity:'legendary', chance:40 },
+                    { rarity:'mythic', chance:50 }] }
 };
 
 var DUPLICATE_REFUND = { common:50, rare:150, epic:400, legendary:1000, mythic:2500 };
@@ -2175,9 +2044,6 @@ var DAILY_REWARDS = [
     { day:7, type:'case', caseId:'epic', icon:'🥇', label:'Эпический кейс' }
 ];
 
-// ==========================================================
-//   ДОСТИЖЕНИЯ (добавлены рогалик-достижения)
-// ==========================================================
 var ACHIEVEMENTS = {
     first_step: { id:'first_step', name:'Первый шаг', icon:'🥉', desc:'Собери 100 монет',
         target:100, type:'totalCoins', reward:{ type:'gold', amount:300 } },
@@ -2227,7 +2093,6 @@ var ACHIEVEMENTS = {
         target:5, type:'coreMaxLevel', reward:{ type:'crystals', amount:10 } },
     core_legend:{ id:'core_legend',name:'Легенда Ядра', icon:'🌈', desc:'Прокачай стат до 10',
         target:10, type:'coreMaxLevel', reward:{ type:'crystals', amount:25 } },
-    // 🎲 НОВЫЕ: Рогалик
     rogue_first:{ id:'rogue_first',name:'Первый выбор', icon:'🎲', desc:'Возьми 1 апгрейд в Рогалике',
         target:1, type:'rogueUpgrades', reward:{ type:'shards', amount:5 } },
     rogue_build:{ id:'rogue_build',name:'Билдостроитель', icon:'⚙️', desc:'Возьми 10 апгрейдов за забег',
@@ -2240,321 +2105,112 @@ var ACHIEVEMENTS = {
         target:10, type:'rogueBest', reward:{ type:'shards', amount:50 } }
 };
 
-// ==========================================================
-//   🎲 ROGUELIKE: КЛАССЫ ПЕРСОНАЖЕЙ
-// ==========================================================
 var CHARACTER_CLASSES = {
-    scout: {
-        id: 'scout', name: 'Разведчик', icon: '🏃',
-        desc: 'Быстрый и ловкий. Собирает больше монет.',
-        startHp: 3,
-        speed: 1.25,
-        magnet: 40,
-        damage: 0,
-        critChance: 0.05,
-        passive: 'Монеты дают +25% золота',
-        passiveId: 'coin_bonus',
-        color: '#7cffb2',
-        unlocked: true,
-        unlockText: 'Доступен сразу'
-    },
-    tank: {
-        id: 'tank', name: 'Танк', icon: '🛡',
-        desc: 'Живучий, но медленный. Больше HP.',
-        startHp: 6,
-        speed: 0.85,
-        magnet: 20,
-        damage: 1,
-        critChance: 0,
-        passive: 'Урон от столкновения ×2',
-        passiveId: 'double_damage',
-        color: '#4fc3f7',
-        unlocked: false,
-        unlockAchievement: 'survivor',
-        unlockText: 'Продержись 2 минуты в Выживании'
-    },
-    mage: {
-        id: 'mage', name: 'Маг', icon: '🔮',
-        desc: 'Аура урона вокруг. Слабое HP.',
-        startHp: 3,
-        speed: 1.0,
-        magnet: 30,
-        damage: 0,
-        critChance: 0,
-        passive: 'Аура 60px: 0.5 урона/сек врагам',
-        passiveId: 'aura',
-        color: '#e040fb',
-        unlocked: false,
-        unlockAchievement: 'warrior',
-        unlockText: 'Дойди до 5 уровня'
-    },
-    rogue: {
-        id: 'rogue', name: 'Вор', icon: '🗡',
-        desc: 'Больше дропа, шанс крита.',
-        startHp: 4,
-        speed: 1.15,
-        magnet: 50,
-        damage: 0,
-        critChance: 0.2,
-        passive: '20% шанс крита ×3 золота',
-        passiveId: 'crit',
-        color: '#ffd93d',
-        unlocked: false,
-        unlockAchievement: 'collector',
-        unlockText: 'Собери 1000 монет'
-    }
+    scout: { id:'scout', name:'Разведчик', icon:'🏃',
+        desc:'Быстрый и ловкий. Собирает больше монет.',
+        startHp:3, speed:1.25, magnet:40, damage:0, critChance:0.05,
+        passive:'Монеты дают +25% золота', passiveId:'coin_bonus',
+        color:'#7cffb2', unlocked:true, unlockText:'Доступен сразу' },
+    tank: { id:'tank', name:'Танк', icon:'🛡',
+        desc:'Живучий, но медленный. Больше HP.',
+        startHp:6, speed:0.85, magnet:20, damage:1, critChance:0,
+        passive:'Урон от столкновения ×2', passiveId:'double_damage',
+        color:'#4fc3f7', unlocked:false, unlockAchievement:'survivor',
+        unlockText:'Продержись 2 минуты в Выживании' },
+    mage: { id:'mage', name:'Маг', icon:'🔮',
+        desc:'Аура урона вокруг. Слабое HP.',
+        startHp:3, speed:1.0, magnet:30, damage:0, critChance:0,
+        passive:'Аура 60px: 0.5 урона/сек врагам', passiveId:'aura',
+        color:'#e040fb', unlocked:false, unlockAchievement:'warrior',
+        unlockText:'Дойди до 5 уровня' },
+    rogue: { id:'rogue', name:'Вор', icon:'🗡',
+        desc:'Больше дропа, шанс крита.',
+        startHp:4, speed:1.15, magnet:50, damage:0, critChance:0.2,
+        passive:'20% шанс крита ×3 золота', passiveId:'crit',
+        color:'#ffd93d', unlocked:false, unlockAchievement:'collector',
+        unlockText:'Собери 1000 монет' }
 };
 
-// ==========================================================
-//   🎲 ROGUELIKE: ПУЛ АПГРЕЙДОВ
-// ==========================================================
 var UPGRADE_POOL = {
-    // === ОФФЕНС ===
-    damage: {
-        id:'damage', name:'Урон', icon:'⚔️', rarity:'common',
-        desc:'+1 урон при столкновении',
-        stacks: true, maxStacks: 8,
-        tags: ['offense'],
-        apply: function(ru) { ru.damage += 1; }
-    },
-    pierce: {
-        id:'pierce', name:'Пронзание', icon:'🏹', rarity:'rare',
-        desc:'Монеты пробивают врагов (урон по линии)',
-        stacks: true, maxStacks: 3,
-        tags: ['offense', 'utility'],
-        apply: function(ru) { ru.pierce += 1; }
-    },
-    thorns: {
-        id:'thorns', name:'Шипы', icon:'🌵', rarity:'rare',
-        desc:'Враги получают 2 урона при касании',
-        stacks: true, maxStacks: 4,
-        tags: ['defense', 'offense'],
-        apply: function(ru) { ru.thorns += 2; }
-    },
-    explosive: {
-        id:'explosive', name:'Взрывные монеты', icon:'💥', rarity:'legendary',
-        desc:'Монеты взрываются при подборе',
-        stacks: false,
-        tags: ['offense'],
-        apply: function(ru) { ru.explosiveCoins = true; }
-    },
-    chain: {
-        id:'chain', name:'Цепная молния', icon:'⚡', rarity:'epic',
-        desc:'Убитые враги бьют молнией ближайшего',
-        stacks: true, maxStacks: 3,
-        tags: ['offense'],
-        apply: function(ru) { ru.chain += 1; }
-    },
-    crit: {
-        id:'crit', name:'Критический удар', icon:'🎯', rarity:'rare',
-        desc:'+15% шанс крита ×3 золота',
-        stacks: true, maxStacks: 5,
-        tags: ['offense', 'economy'],
-        apply: function(ru) { ru.critChance += 0.15; }
-    },
-
-    // === ЗАЩИТА ===
-    shield: {
-        id:'shield', name:'Щит', icon:'🛡', rarity:'common',
-        desc:'+1 щит, восстанавливается каждые 12 сек',
-        stacks: true, maxStacks: 5,
-        tags: ['defense'],
-        apply: function(ru) { ru.maxShield += 1; }
-    },
-    dodge: {
-        id:'dodge', name:'Уклонение', icon:'💨', rarity:'rare',
-        desc:'+15% шанс избежать урона',
-        stacks: true, maxStacks: 4,
-        tags: ['defense'],
-        apply: function(ru) { ru.dodge += 0.15; }
-    },
-    regen: {
-        id:'regen', name:'Регенерация', icon:'💚', rarity:'epic',
-        desc:'+1 HP каждые 25 сек',
-        stacks: true, maxStacks: 3,
-        tags: ['defense', 'utility'],
-        apply: function(ru) { ru.regen += 1; }
-    },
-
-    // === УТИЛИТЫ ===
-    magnet: {
-        id:'magnet', name:'Магнит', icon:'🧲', rarity:'common',
-        desc:'+40 радиус сбора монет',
-        stacks: true, maxStacks: 8,
-        tags: ['utility'],
-        apply: function(ru) { ru.magnetRadius += 40; }
-    },
-    speed: {
-        id:'speed', name:'Скорость', icon:'⚡', rarity:'common',
-        desc:'+8% скорость передвижения',
-        stacks: true, maxStacks: 8,
-        tags: ['utility'],
-        apply: function(ru) { ru.speedMult *= 1.08; }
-    },
-    luck: {
-        id:'luck', name:'Удача', icon:'🍀', rarity:'rare',
-        desc:'+10% шанс дропа',
-        stacks: true, maxStacks: 6,
-        tags: ['utility'],
-        apply: function(ru) { ru.luckBonus += 0.10; }
-    },
-    greed: {
-        id:'greed', name:'Жадность', icon:'💰', rarity:'common',
-        desc:'+20% золота',
-        stacks: true, maxStacks: 8,
-        tags: ['economy'],
-        apply: function(ru) { ru.goldMult *= 1.20; }
-    },
-    combo_extend: {
-        id:'combo_extend', name:'Комбо-мастер', icon:'🔥', rarity:'rare',
-        desc:'+30 кадров к окну комбо',
-        stacks: true, maxStacks: 5,
-        tags: ['economy', 'utility'],
-        apply: function(ru) { ru.comboWindowBonus += 30; }
-    },
-
-    // === СПЕЦИАЛЬНЫЕ ===
-    orbit: {
-        id:'orbit', name:'Спутник', icon:'🪐', rarity:'epic',
-        desc:'Вращающийся шар наносит 1 урон/сек',
-        stacks: true, maxStacks: 4,
-        tags: ['offense', 'utility'],
-        apply: function(ru) { ru.orbitals += 1; }
-    },
-    vampire: {
-        id:'vampire', name:'Вампиризм', icon:'🧛', rarity:'legendary',
-        desc:'5% урона восстанавливают HP',
-        stacks: true, maxStacks: 3,
-        tags: ['offense', 'defense'],
-        apply: function(ru) { ru.vampire += 0.05; }
-    },
-    time_slow: {
-        id:'time_slow', name:'Замедление', icon:'⏳', rarity:'epic',
-        desc:'Враги -10% скорости',
-        stacks: true, maxStacks: 5,
-        tags: ['defense'],
-        apply: function(ru) { ru.enemySlow *= 0.90; }
-    },
-    glass_cannon: {
-        id:'glass_cannon', name:'Стеклянная пушка', icon:'💎', rarity:'mythic',
-        desc:'+3 урона, но -1 HP',
-        stacks: true, maxStacks: 3,
-        tags: ['offense', 'risk'],
-        apply: function(ru) { ru.damage += 3; ru.hpPenalty += 1; }
-    },
-    berserk: {
-        id:'berserk', name:'Берсерк', icon:'😡', rarity:'mythic',
-        desc:'Чем меньше HP, тем больше урона (до ×3)',
-        stacks: false,
-        tags: ['offense', 'risk'],
-        apply: function(ru) { ru.berserk = true; }
-    }
+    damage: { id:'damage', name:'Урон', icon:'⚔️', rarity:'common',
+        desc:'+1 урон при столкновении', stacks:true, maxStacks:8, tags:['offense'] },
+    pierce: { id:'pierce', name:'Пронзание', icon:'🏹', rarity:'rare',
+        desc:'Монеты пробивают врагов', stacks:true, maxStacks:3, tags:['offense'] },
+    thorns: { id:'thorns', name:'Шипы', icon:'🌵', rarity:'rare',
+        desc:'Враги получают 2 урона при касании', stacks:true, maxStacks:4, tags:['defense','offense'] },
+    explosive: { id:'explosive', name:'Взрывные монеты', icon:'💥', rarity:'legendary',
+        desc:'Монеты взрываются при подборе', stacks:false, tags:['offense'] },
+    chain: { id:'chain', name:'Цепная молния', icon:'⚡', rarity:'epic',
+        desc:'Убитые враги бьют молнией ближайшего', stacks:true, maxStacks:3, tags:['offense'] },
+    crit: { id:'crit', name:'Критический удар', icon:'🎯', rarity:'rare',
+        desc:'+15% шанс крита ×3 золота', stacks:true, maxStacks:5, tags:['offense','economy'] },
+    shield: { id:'shield', name:'Щит', icon:'🛡', rarity:'common',
+        desc:'+1 щит, восстанавливается 12 сек', stacks:true, maxStacks:5, tags:['defense'] },
+    dodge: { id:'dodge', name:'Уклонение', icon:'💨', rarity:'rare',
+        desc:'+15% шанс избежать урона', stacks:true, maxStacks:4, tags:['defense'] },
+    regen: { id:'regen', name:'Регенерация', icon:'💚', rarity:'epic',
+        desc:'+1 HP каждые 25 сек', stacks:true, maxStacks:3, tags:['defense'] },
+    magnet: { id:'magnet', name:'Магнит', icon:'🧲', rarity:'common',
+        desc:'+40 радиус сбора монет', stacks:true, maxStacks:8, tags:['utility'] },
+    speed: { id:'speed', name:'Скорость', icon:'⚡', rarity:'common',
+        desc:'+8% скорость передвижения', stacks:true, maxStacks:8, tags:['utility'] },
+    luck: { id:'luck', name:'Удача', icon:'🍀', rarity:'rare',
+        desc:'+10% шанс дропа', stacks:true, maxStacks:6, tags:['utility'] },
+    greed: { id:'greed', name:'Жадность', icon:'💰', rarity:'common',
+        desc:'+20% золота', stacks:true, maxStacks:8, tags:['economy'] },
+    combo_extend: { id:'combo_extend', name:'Комбо-мастер', icon:'🔥', rarity:'rare',
+        desc:'+30 кадров к окну комбо', stacks:true, maxStacks:5, tags:['economy'] },
+    orbit: { id:'orbit', name:'Спутник', icon:'🪐', rarity:'epic',
+        desc:'Вращающийся шар наносит урон', stacks:true, maxStacks:4, tags:['offense'] },
+    vampire: { id:'vampire', name:'Вампиризм', icon:'🧛', rarity:'legendary',
+        desc:'5% урона восстанавливают HP', stacks:true, maxStacks:3, tags:['offense','defense'] },
+    time_slow: { id:'time_slow', name:'Замедление', icon:'⏳', rarity:'epic',
+        desc:'Враги -10% скорости', stacks:true, maxStacks:5, tags:['defense'] },
+    glass_cannon: { id:'glass_cannon', name:'Стеклянная пушка', icon:'💎', rarity:'mythic',
+        desc:'+3 урона, но -1 HP', stacks:true, maxStacks:3, tags:['offense','risk'] },
+    berserk: { id:'berserk', name:'Берсерк', icon:'😡', rarity:'mythic',
+        desc:'Чем меньше HP, тем больше урона (до ×3)', stacks:false, tags:['offense','risk'] }
 };
 
-// ==========================================================
-//   🎲 ROGUELIKE: РЕЛИКВИИ (артефакты)
-// ==========================================================
 var RELICS = {
-    lucky_coin: {
-        id:'lucky_coin', name:'Счастливая монета', icon:'🍀',
-        desc:'+30% золота от монет',
-        rarity: 'common',
-        apply: function(ru) { ru.goldMult *= 1.30; }
-    },
-    hourglass: {
-        id:'hourglass', name:'Песочные часы', icon:'⏳',
-        desc:'Комбо не сбрасывается первые 3 сек',
-        rarity: 'rare',
-        apply: function(ru) { ru.comboGraceTime = 180; }
-    },
-    magnet_core: {
-        id:'magnet_core', name:'Ядро магнита', icon:'🧲',
-        desc:'Радиус магнита ×2',
-        rarity: 'rare',
-        apply: function(ru) { ru.magnetRadius *= 2; }
-    },
-    aegis: {
-        id:'aegis', name:'Эгида', icon:'🛡',
-        desc:'+2 щита',
-        rarity: 'epic',
-        apply: function(ru) { ru.maxShield += 2; }
-    },
-    phoenix_heart: {
-        id:'phoenix_heart', name:'Сердце феникса', icon:'🔥',
-        desc:'Возрождение 1 раз за забег',
-        rarity: 'legendary',
-        apply: function(ru) { ru.revives += 1; }
-    },
-    midas: {
-        id:'midas', name:'Прикосновение Мидаса', icon:'👑',
-        desc:'Все монеты ×3 золота',
-        rarity: 'legendary',
-        apply: function(ru) { ru.goldMult *= 3; }
-    },
-    chaos_orb: {
-        id:'chaos_orb', name:'Сфера хаоса', icon:'🌀',
-        desc:'Каждые 10 сек: случайный бафф',
-        rarity: 'mythic',
-        apply: function(ru) { ru.chaosOrb = true; }
-    },
-    berserker_mask: {
-        id:'berserker_mask', name:'Маска берсерка', icon:'😈',
-        desc:'Урон ×2 при HP = 1',
-        rarity: 'mythic',
-        apply: function(ru) { ru.berserkerMask = true; }
-    },
-    star_compass: {
-        id:'star_compass', name:'Звёздный компас', icon:'🧭',
-        desc:'+1 апгрейд на выбор при level up',
-        rarity: 'legendary',
-        apply: function(ru) { ru.extraUpgradeChoice = true; }
-    }
+    lucky_coin: { id:'lucky_coin', name:'Счастливая монета', icon:'🍀',
+        desc:'+30% золота от монет', rarity:'common' },
+    hourglass: { id:'hourglass', name:'Песочные часы', icon:'⏳',
+        desc:'Комбо не сбрасывается 3 сек', rarity:'rare' },
+    magnet_core: { id:'magnet_core', name:'Ядро магнита', icon:'🧲',
+        desc:'Радиус магнита ×2', rarity:'rare' },
+    aegis: { id:'aegis', name:'Эгида', icon:'🛡',
+        desc:'+2 щита', rarity:'epic' },
+    phoenix_heart: { id:'phoenix_heart', name:'Сердце феникса', icon:'🔥',
+        desc:'Возрождение 1 раз за забег', rarity:'legendary' },
+    midas: { id:'midas', name:'Прикосновение Мидаса', icon:'👑',
+        desc:'Все монеты ×3 золота', rarity:'legendary' },
+    chaos_orb: { id:'chaos_orb', name:'Сфера хаоса', icon:'🌀',
+        desc:'Каждые 10 сек: случайный бафф', rarity:'mythic' },
+    berserker_mask: { id:'berserker_mask', name:'Маска берсерка', icon:'😈',
+        desc:'Урон ×2 при HP = 1', rarity:'mythic' },
+    star_compass: { id:'star_compass', name:'Звёздный компас', icon:'🧭',
+        desc:'+1 апгрейд на выбор', rarity:'legendary' }
 };
 
-// ==========================================================
-//   🎲 ROGUELIKE: МОДИФИКАТОРЫ ВОЛН
-// ==========================================================
 var WAVE_MODIFIERS = {
-    horde: {
-        id:'horde', name:'ОРДА', icon:'👥', color:'#ff5c7a',
-        desc:'×3 врагов, но ×0.5 HP',
-        enemyMult: 3, hpMult: 0.5
-    },
-    elite: {
-        id:'elite', name:'ЭЛИТА', icon:'👑', color:'#9c6bff',
-        desc:'Все враги с +1 HP',
-        hpBonus: 1, goldBonus: 0.5
-    },
-    fast: {
-        id:'fast', name:'УСКОРЕНИЕ', icon:'💨', color:'#ffd93d',
-        desc:'Враги +50% скорости',
-        speedMult: 1.5
-    },
-    darkness: {
-        id:'darkness', name:'ТЬМА', icon:'🌑', color:'#000',
-        desc:'Видно только радиус вокруг',
-        darkness: true
-    },
-    gold_rush: {
-        id:'gold_rush', name:'ЗОЛОТАЯ ЛИХОРАДКА', icon:'💰', color:'#ffe082',
-        desc:'×5 монет, ×2 врагов',
-        enemyMult: 2, goldMult: 5
-    },
-    no_hit: {
-        id:'no_hit', name:'ИДЕАЛЬНО', icon:'✨', color:'#7cffb2',
-        desc:'Бонус 500 золота без урона',
-        noHitChallenge: true, reward: 500
-    },
-    boss_rush: {
-        id:'boss_rush', name:'БОСС-РАШ', icon:'🐉', color:'#ff1744',
-        desc:'Мини-босс появляется сразу',
-        spawnMiniboss: true
-    }
+    horde: { id:'horde', name:'ОРДА', icon:'👥', color:'#ff5c7a',
+        desc:'×3 врагов, но ×0.5 HP', enemyMult:3, hpMult:0.5 },
+    elite: { id:'elite', name:'ЭЛИТА', icon:'👑', color:'#9c6bff',
+        desc:'Все враги с +1 HP', hpBonus:1, goldBonus:0.5 },
+    fast: { id:'fast', name:'УСКОРЕНИЕ', icon:'💨', color:'#ffd93d',
+        desc:'Враги +50% скорости', speedMult:1.5 },
+    darkness: { id:'darkness', name:'ТЬМА', icon:'🌑', color:'#000',
+        desc:'Видно только радиус вокруг', darkness:true },
+    gold_rush: { id:'gold_rush', name:'ЗОЛОТАЯ ЛИХОРАДКА', icon:'💰', color:'#ffe082',
+        desc:'×5 монет, ×2 врагов', enemyMult:2, goldMult:5 },
+    no_hit: { id:'no_hit', name:'ИДЕАЛЬНО', icon:'✨', color:'#7cffb2',
+        desc:'Бонус 500 золота без урона', noHitChallenge:true, reward:500 },
+    boss_rush: { id:'boss_rush', name:'БОСС-РАШ', icon:'🐉', color:'#ff1744',
+        desc:'Мини-босс появляется сразу', spawnMiniboss:true }
 };
 
-// ==========================================================
-//   ХРАНИЛИЩЕ
-// ==========================================================
+// ===== ХРАНИЛИЩЕ =====
 var storage = (function() {
     var mem = {};
     var canUseLS = false;
@@ -2621,10 +2277,8 @@ function deleteProfileData(login) { storage.remove(PROFILE_PREFIX + login); }
 
 function makeDefaultSave() {
     return {
-        // Основное
         bestCoins: 0, bank: 0, gamesPlayed: 0, bestLevel: 1,
         bestTime: 0, totalTime: 0,
-        // Косметика
         ownedSkins: ['default'], equippedSkin: 'default',
         ownedItems: [],
         ownedThemes: ['cosmos'], equippedTheme: 'cosmos',
@@ -2633,7 +2287,6 @@ function makeDefaultSave() {
         ownedSoundPacks: ['classic'], equippedSoundPack: 'classic',
         ownedMusic: ['default'], equippedMusic: 'default',
         ownedCards: [],
-        // Статистика
         openedCases: 0, totalRefund: 0, totalCoins: 0,
         freeCases: { common:0, rare:0, epic:0, legendary:0, mythic:0 },
         claimedAchievements: [],
@@ -2647,37 +2300,25 @@ function makeDefaultSave() {
             hardcore: { coins: 0, time: 0 }
         },
         modesPlayed: [],
-        bossesKilled: 0,
-        totalKills: 0,
-        // ЯДРО
+        bossesKilled: 0, totalKills: 0,
         coreCrystals: 0,
         coreStats: { vitality:0, speed:0, magnet:0, greed:0, combo:0, luck:0 },
-        // 🎲 ROGUELIKE
-        starShards: 0,        // Осколки звёзд (внутриигровая валюта)
-        unlockedUpgrades: [], // ID разблокированных апгрейдов (для метапрогрессии)
-        unlockedRelics: [],   // ID разблокированных реликвий
-        unlockedClasses: ['scout'], // Разблокированные классы
+        starShards: 0,
+        unlockedUpgrades: [], unlockedRelics: [], unlockedClasses: ['scout'],
         rogueStats: {
-            totalUpgradesPicked: 0,
-            maxUpgradesInRun: 0,
-            synergiesActivated: 0,
-            maxRelicsInRun: 0,
-            bestLevel: 0,
-            runsPlayed: 0
+            totalUpgradesPicked: 0, maxUpgradesInRun: 0,
+            synergiesActivated: 0, maxRelicsInRun: 0,
+            bestLevel: 0, runsPlayed: 0
         },
         lastMode: 'rogue',
         lastDailyCrystals: null
     };
 }
 
-// ==========================================================
-//   МИГРАЦИЯ СТАРЫХ СЕЙВОВ
-// ==========================================================
 function migrateSave(d) {
     var changed = false;
     var defaults = makeDefaultSave();
 
-    // Базовая проверка
     Object.keys(defaults).forEach(function(key) {
         if (typeof d[key] === 'undefined') {
             d[key] = defaults[key];
@@ -2685,7 +2326,6 @@ function migrateSave(d) {
         }
     });
 
-    // Ядро
     if (!d.coreStats) {
         d.coreStats = { vitality:0, speed:0, magnet:0, greed:0, combo:0, luck:0 };
         changed = true;
@@ -2700,7 +2340,6 @@ function migrateSave(d) {
     if (typeof d.coreCrystals !== 'number') { d.coreCrystals = 0; changed = true; }
     if (typeof d.starShards !== 'number') { d.starShards = 0; changed = true; }
 
-    // Режимы (добавляем rogue)
     if (!d.modeBests) { d.modeBests = {}; changed = true; }
     Object.keys(MODES).forEach(function(m) {
         if (!d.modeBests[m]) {
@@ -2713,7 +2352,6 @@ function migrateSave(d) {
     if (!d.boosts) { d.boosts = { x2gold:0, shieldRun:0, startCoins:0, magnetRun:0, comboRun:0 }; changed = true; }
     if (!d.freeCases) { d.freeCases = { common:0, rare:0, epic:0, legendary:0, mythic:0 }; changed = true; }
 
-    // Rogue stats
     if (!d.rogueStats) {
         d.rogueStats = {
             totalUpgradesPicked: 0, maxUpgradesInRun: 0,
@@ -2726,7 +2364,6 @@ function migrateSave(d) {
     if (!d.unlockedRelics) { d.unlockedRelics = []; changed = true; }
     if (!d.unlockedClasses) { d.unlockedClasses = ['scout']; changed = true; }
 
-    // Проверка разблокировки классов по достижениям
     Object.keys(CHARACTER_CLASSES).forEach(function(cid) {
         var cls = CHARACTER_CLASSES[cid];
         if (cls.unlocked && d.unlockedClasses.indexOf(cid) === -1) {
@@ -2777,7 +2414,6 @@ function formatNumber(n) {
     return n;
 }
 
-// ===== ХЕЛПЕРЫ ЯДРА =====
 function getCoreStatPrice(statId) {
     var stat = CORE_STATS[statId];
     var s = getSave();
@@ -2821,7 +2457,6 @@ function getCoreMaxLevel() {
     return maxLvl;
 }
 
-// ===== ХЕЛПЕРЫ КЛАССОВ =====
 function isClassUnlocked(classId) {
     var s = getSave();
     if (!s.unlockedClasses) s.unlockedClasses = ['scout'];
@@ -2829,7 +2464,6 @@ function isClassUnlocked(classId) {
     if (!cls) return false;
     if (cls.unlocked) return true;
     if (s.unlockedClasses.indexOf(classId) !== -1) return true;
-    // Проверка через достижение
     if (cls.unlockAchievement) {
         var ach = ACHIEVEMENTS[cls.unlockAchievement];
         if (ach) {
@@ -2850,7 +2484,6 @@ function getClass(id) {
     return CHARACTER_CLASSES[id] || CHARACTER_CLASSES.scout;
 }
 
-// ===== ХЕЛПЕРЫ АПГРЕЙДОВ =====
 function getUpgradeStacks(upgradeId) {
     if (!runUpgrades) return 0;
     return runUpgrades[upgradeId] || 0;
@@ -2859,9 +2492,7 @@ function getUpgradeStacks(upgradeId) {
 function canPickUpgrade(upgradeId) {
     var up = UPGRADE_POOL[upgradeId];
     if (!up) return false;
-    if (!up.stacks) {
-        return getUpgradeStacks(upgradeId) === 0;
-    }
+    if (!up.stacks) return getUpgradeStacks(upgradeId) === 0;
     var maxStacks = up.maxStacks || 99;
     return getUpgradeStacks(upgradeId) < maxStacks;
 }
@@ -2874,7 +2505,6 @@ function pickRandomUpgrades(count, exclude) {
         if (!canPickUpgrade(id)) return;
         available.push(id);
     });
-    // Взвешенный рандом по редкости
     var rarityWeights = { common: 60, rare: 25, epic: 12, legendary: 2.5, mythic: 0.5 };
     var weighted = [];
     available.forEach(function(id) {
@@ -2917,10 +2547,8 @@ function pickRandomRelics(count, exclude) {
     return picks;
 }
 
-console.log('✓ Часть 2/4 загружена — константы, миграция, рогалик-системы');
-
 // ==========================================================
-//   ЗАГЛУШКИ для переменных (будут переопределены)
+//   ЗАГЛУШКИ ПЕРЕМЕННЫХ — С ВСЕМИ ФИКСАМИ
 // ==========================================================
 var running = false, paused = false, gameOver = false;
 var score = 0, goldEarned = 0, crystalsEarned = 0, lives = 4;
@@ -2942,11 +2570,12 @@ var newTimeRecord = false;
 var lastErrorShown = '';
 
 // 🎲 ROGUELIKE
-var runUpgrades = {};      // { damage: 2, shield: 1, ... }
-var runRelics = [];        // ['lucky_coin', 'hourglass']
-var playerDamage = 0;      // Базовый урон
-var playerShields = 0;     // Текущие щиты
-var maxShields = 0;        // Максимум щитов
+var runUpgrades = {};
+var runRelics = [];
+var runSynergies = {};           // 🔧 ФИКС: объявлено явно
+var playerDamage = 0;
+var playerShields = 0;
+var maxShields = 0;
 var shieldRegenTimer = 0;
 var critChance = 0;
 var dodgeChance = 0;
@@ -2955,7 +2584,6 @@ var regenTimer = 0;
 var vampiresHeal = 0;
 var orbitals = [];
 var currentWaveModifier = null;
-var pendingWaveModifier = null;
 var currentWaveLevel = 0;
 var noHitWaveActive = false;
 var noHitWaveDamage = 0;
@@ -2972,15 +2600,14 @@ var hpPenalty = 0;
 
 var pendingUpgradeChoices = [];
 var pendingRelicChoices = [];
+var pendingUpgradeAfterWave = false;  // 🔧 ФИКС: флаг для элитной волны
 var rerollCost = 50;
 var isChoosingUpgrade = false;
 
-// Кэш бонусов Ядра
 var coreBonusCache = {
     vitality: 0, speed: 1, magnet: 0, greed: 1, combo: 0, luck: 0
 };
 
-// ===== ПАРАЛЛАКС =====
 (function initParallaxStars() {
     for (var layer = 0; layer < 3; layer++) {
         var count = 15 - layer * 3;
@@ -2995,12 +2622,12 @@ var coreBonusCache = {
     }
 })();
 
-console.log('✓ Заглушки переменных готовы');
+console.log('✓ Часть 2/4 загружена');
 </script>
 
 <script>
 // ==========================================================
-//   STARFALL DASH 2.6 «ROGUELIKE EVOLUTION» — ЧАСТЬ 3/4
+//   STARFALL DASH 2.6 — ЧАСТЬ 3/4
 //   Профили • Звук • HUD • Ядро • Классы • Магазин • Кейсы
 // ==========================================================
 
@@ -3261,7 +2888,7 @@ function updateDailyTile() {
     else tileDaily.classList.remove('has-reward');
 }
 
-// ===== КНОПКА ИГРАТЬ =====
+// ===== КНОПКИ МЕНЮ =====
 tilePlay.addEventListener('click', function() {
     running = false;
     gameOver = false;
@@ -3273,7 +2900,6 @@ tilePlay.addEventListener('click', function() {
 });
 
 tileQuick.addEventListener('click', function() {
-    // Быстрый старт в режиме рогалика
     currentMode = 'rogue';
     startScreen.classList.add('hidden');
     modeScreen.classList.add('hidden');
@@ -3306,7 +2932,6 @@ function selectMode(modeId) {
     }
     persist();
 
-    // Для рогалика — экран выбора класса
     if (MODES[modeId].isRoguelike) {
         modeScreen.classList.add('hidden');
         classScreen.classList.remove('hidden');
@@ -3563,7 +3188,7 @@ pmSwitch.addEventListener('click', function() {
 // ===== НАСТРОЙКИ =====
 btnSettings.addEventListener('click', function() {
     var s = getSave();
-    document.querySelectorAll('[data-speed]').forEach(function(b) {
+    document.querySelectorAll('#settings-modal [data-speed]').forEach(function(b) {
         b.classList.toggle('primary', parseFloat(b.dataset.speed) === s.gameSpeed);
         b.classList.toggle('ghost', parseFloat(b.dataset.speed) !== s.gameSpeed);
     });
@@ -3806,7 +3431,6 @@ function updateBuffBadges() {
     if (buff.chest > 0) add('chest', '🎁', Math.ceil(buff.chest / 60));
 }
 
-// Обновление стрипа апгрейдов
 function updateUpgradeStrip() {
     if (!upgradeStrip) return;
     upgradeStrip.innerHTML = '';
@@ -3827,7 +3451,6 @@ function updateUpgradeStrip() {
         upgradeStrip.appendChild(stack);
     });
 
-    // Реликвии отдельно
     runRelics.forEach(function(rid) {
         var rel = RELICS[rid];
         if (!rel) return;
@@ -3881,7 +3504,6 @@ function getAchievementProgress(ach) {
     if (ach.type === 'bossesKilled') return s.bossesKilled || 0;
     if (ach.type === 'modesPlayed') return (s.modesPlayed || []).length;
     if (ach.type === 'coreMaxLevel') return getCoreMaxLevel();
-    // Rogue
     if (ach.type === 'rogueUpgrades') return (s.rogueStats && s.rogueStats.totalUpgradesPicked) || 0;
     if (ach.type === 'rogueMaxUpgradesRun') return (s.rogueStats && s.rogueStats.maxUpgradesInRun) || 0;
     if (ach.type === 'synergiesActivated') return (s.rogueStats && s.rogueStats.synergiesActivated) || 0;
@@ -4028,7 +3650,6 @@ function claimDaily() {
         showToast('🎁 День ' + s.dailyStreak + ': ' + CASES[reward.caseId].name + '!', 'legendary');
     }
 
-    // +3 кристалла и +10 осколков за первый вход дня
     if (s.lastDailyCrystals !== today) {
         s.lastDailyCrystals = today;
         s.coreCrystals = (s.coreCrystals || 0) + 3;
@@ -4052,7 +3673,7 @@ dailyModal.addEventListener('click', function(e) {
 });
 
 // ==========================================================
-//   МАГАЗИН — РЕНДЕРИНГ
+//   МАГАЗИН
 // ==========================================================
 function makeCard(cls) {
     var c = document.createElement('div');
@@ -4206,7 +3827,6 @@ function renderThemes() {
 
 function renderCases() {
     var s = getSave();
-    // Бесплатные кейсы
     Object.keys(s.freeCases).forEach(function(cid) {
         if (s.freeCases[cid] <= 0) return;
         var c = CASES[cid];
@@ -4232,7 +3852,6 @@ function renderCases() {
         shopGrid.appendChild(card);
     });
 
-    // Обычные кейсы
     Object.keys(CASES).forEach(function(k) {
         var c = CASES[k];
         var canAfford = s.bank >= c.price;
@@ -4416,7 +4035,7 @@ function renderAchievements() {
     });
 }
 
-// ===== ОБРАБОТЧИКИ МАГАЗИНА =====
+// ===== ОБРАБОТЧИКИ =====
 function handleSkinClick(skin) {
     var s = getSave();
     var owned = s.ownedSkins.indexOf(skin.id) !== -1;
@@ -4542,7 +4161,7 @@ document.querySelectorAll('.shop-tab').forEach(function(tab) {
 shopClose.addEventListener('click', function() { shopModal.classList.remove('open'); });
 
 // ==========================================================
-//   КЕЙС
+//   КЕЙСЫ
 // ==========================================================
 function openCase(caseId, isFree) {
     var s = getSave();
@@ -4866,21 +4485,35 @@ function shareResult() {
     }
 }
 
-console.log('✓ Часть 3/4 загружена — профили, звук, HUD, ядро, классы, магазин, кейсы');
+console.log('✓ Часть 3/4 загружена');
 </script>
 
 <script>
 // ==========================================================
-//   STARFALL DASH 2.6 «ROGUELIKE EVOLUTION» — ЧАСТЬ 4/4
-//   update() • draw() • reset() • Апгрейды • Реликвии • Волны
+//   STARFALL DASH 2.6 — ЧАСТЬ 4/4
+//   update • draw • reset • Апгрейды • Реликвии • Волны
+//   ⚠️ ВСЕ ФИКСЫ БАГОВ ВНЕДРЕНЫ
 // ==========================================================
 
-// ===== ИГРОВОЕ СОСТОЯНИЕ =====
+// ===== ИГРОК =====
 var player = {
     x: 285, y: 340, size: 30, speed: 7, frozen: 0, inWeb: false,
     breath: 0, tilt: 0, lastDirX: 0, lastDirY: 1,
     damageFlash: 0, blinkTimer: 0, isBlinking: false
 };
+
+// ==========================================================
+//   КРИТИЧНЫЙ ФИКС: СБРОС НАКОПЛЕННОГО ВРЕМЕНИ
+//   Предотвращает "ускорение" и "фарм монет" после модалок
+// ==========================================================
+var lastTime = performance.now();
+var frameBudget = 1000 / 60;
+var accumulated = 0;
+
+function resetFrameClock() {
+    accumulated = 0;
+    lastTime = performance.now();
+}
 
 // ===== УТИЛИТЫ =====
 function getCoinMultiplier() {
@@ -5192,8 +4825,7 @@ function spawnEnemy(forcedType) {
         teleportTimer: t.teleportEvery || 0,
         magnetActive: false,
         laserCharging: false,
-        laserTimer: 0,
-        doppelOffset: { x: 0, y: 0 }
+        laserTimer: 0
     };
     if (typeKey === 'barrier') {
         e.x = Math.random() < 0.5 ? 30 : canvas.width - 30 - (t.barWidth || 60);
@@ -5263,13 +4895,13 @@ function spawnWeb(x, y) {
 //   ROGUELIKE: СИНЕРГИИ
 // ==========================================================
 function checkSynergies() {
+    var s = getSave();
     // Vampire + Thorns = Blood Thorns
     if (runUpgrades.vampire && runUpgrades.thorns && !runSynergies.blood_thorns) {
         runSynergies.blood_thorns = true;
         thornsDamage *= 2;
         showToast('🔥 СИНЕРГИЯ: Кровавые шипы!', 'legendary');
         playSFX('upgrade');
-        var s = getSave();
         s.rogueStats.synergiesActivated = (s.rogueStats.synergiesActivated || 0) + 1;
         persist();
     }
@@ -5278,8 +4910,7 @@ function checkSynergies() {
         runSynergies.jackpot = true;
         showToast('💰 СИНЕРГИЯ: Джекпот!', 'legendary');
         playSFX('upgrade');
-        var s2 = getSave();
-        s2.rogueStats.synergiesActivated = (s2.rogueStats.synergiesActivated || 0) + 1;
+        s.rogueStats.synergiesActivated = (s.rogueStats.synergiesActivated || 0) + 1;
         persist();
     }
     // Speed + Dodge = Flash
@@ -5306,23 +4937,14 @@ function checkSynergies() {
 
 // ==========================================================
 //   ROGUELIKE: ПРИМЕНЕНИЕ АПГРЕЙДА
+//   ⚠️ ФИКС: без бесполезного up.apply()
 // ==========================================================
 function applyUpgrade(upgradeId) {
     var up = UPGRADE_POOL[upgradeId];
     if (!up) return;
-    var wasMaxed = !canPickUpgrade(upgradeId);
 
-    // Увеличить стак
     runUpgrades[upgradeId] = (runUpgrades[upgradeId] || 0) + 1;
 
-    // Применить базовый эффект через функцию
-    if (up.apply) {
-        up.apply({
-            damage: undefined, // не используется, вместо этого напрямую
-        });
-    }
-
-    // Прямая мутация state (проще и надёжнее)
     switch (upgradeId) {
         case 'damage': playerDamage += 1; break;
         case 'pierce': pierceCount += 1; break;
@@ -5333,8 +4955,8 @@ function applyUpgrade(upgradeId) {
         case 'shield': maxShields += 1; playerShields = Math.min(maxShields, playerShields + 1); break;
         case 'dodge': dodgeChance += 0.15; break;
         case 'regen': regenTimer = 25 * 60; break;
-        case 'magnet': buff.magnet = Math.max(buff.magnet, 0); /* обрабатывается ниже */ break;
-        case 'speed': /* обрабатывается в update через runUpgrades.speed */ break;
+        case 'magnet': break;
+        case 'speed': break;
         case 'luck': break;
         case 'greed': break;
         case 'combo_extend': COMBO_WINDOW += 30; break;
@@ -5342,10 +4964,9 @@ function applyUpgrade(upgradeId) {
         case 'vampire': vampiresHeal += 0.05; break;
         case 'time_slow': enemySlowMult *= 0.90; break;
         case 'glass_cannon': playerDamage += 3; hpPenalty += 1; break;
-        case 'berserk': break; // флаг читается в update
+        case 'berserk': break;
     }
 
-    // Обновить стат-трекер
     var s = getSave();
     s.rogueStats.totalUpgradesPicked = (s.rogueStats.totalUpgradesPicked || 0) + 1;
     var totalNow = Object.keys(runUpgrades).reduce(function(sum, k) { return sum + runUpgrades[k]; }, 0);
@@ -5354,7 +4975,6 @@ function applyUpgrade(upgradeId) {
     }
     persist();
     checkAchievements();
-
     updateUpgradeStrip();
     updateHUD();
 }
@@ -5377,7 +4997,7 @@ function applyRelic(relicId) {
     runRelics.push(relicId);
 
     switch (relicId) {
-        case 'lucky_coin': break; // goldMult пересчитывается
+        case 'lucky_coin': break;
         case 'hourglass': comboGraceTimer = 180; break;
         case 'magnet_core': buff.magnet = Math.max(buff.magnet, 120); break;
         case 'aegis': maxShields += 2; playerShields += 2; break;
@@ -5394,7 +5014,6 @@ function applyRelic(relicId) {
     }
     persist();
     checkAchievements();
-
     updateUpgradeStrip();
     showToast('🏺 Реликвия: ' + rel.name + '!', 'legendary');
     playSFX('upgrade');
@@ -5407,24 +5026,21 @@ function showUpgradeChoice() {
     var count = 3 + (extraUpgradeChoice ? 1 : 0);
     pendingUpgradeChoices = pickRandomUpgrades(count);
     if (pendingUpgradeChoices.length === 0) {
-        // Нет доступных апгрейдов (всё выкуплено) — дать золото
         var s = getSave();
         var bonus = 100;
         s.bank += bonus;
         persist();
         showToast('💰 Все апгрейды выкуплены! +' + bonus, 'info');
-        running = true;
         return;
     }
 
     isChoosingUpgrade = true;
     running = false;
+    resetFrameClock();  // 🔧 ФИКС
 
     upgradeTitle.textContent = '🎉 УРОВЕНЬ ' + level + '!';
     renderUpgradeCards();
     upgradeModal.classList.add('open');
-
-    // Реролл
     updateRerollButton();
     playSFX('upgrade');
 }
@@ -5474,7 +5090,6 @@ function renderUpgradeCards() {
             card.appendChild(info);
         }
 
-        // Синергия-хинт
         var synHint = getSynergyHint(id);
         if (synHint) {
             var hint = document.createElement('div');
@@ -5515,7 +5130,7 @@ function closeUpgradeModal() {
     isChoosingUpgrade = false;
     running = true;
     pendingUpgradeChoices = [];
-    levelTimer = LEVEL_DURATION;
+    resetFrameClock();  // 🔧 ФИКС
     updateHUD();
 }
 
@@ -5526,11 +5141,9 @@ upgradeRerollBtn.addEventListener('click', function() {
     rerollCost += 25;
     persist();
 
-    // Найти исключённые
     var exclude = pendingUpgradeChoices.slice();
     var count = 3 + (extraUpgradeChoice ? 1 : 0);
     var newPicks = pickRandomUpgrades(count, exclude);
-    // Если меньше — добираем без исключения
     if (newPicks.length < count) {
         var extra = pickRandomUpgrades(count - newPicks.length);
         extra.forEach(function(id) {
@@ -5550,6 +5163,8 @@ upgradeRerollBtn.addEventListener('click', function() {
 //   ROGUELIKE: МОДАЛКА РЕЛИКВИЙ
 // ==========================================================
 function showRelicChoice() {
+    if (isChoosingUpgrade) return;  // защита
+
     var picks = pickRandomRelics(3);
     if (picks.length === 0) {
         showToast('Все реликвии собраны!', 'info');
@@ -5558,6 +5173,7 @@ function showRelicChoice() {
     pendingRelicChoices = picks;
     isChoosingUpgrade = true;
     running = false;
+    resetFrameClock();  // 🔧 ФИКС
 
     relicCardsEl.innerHTML = '';
     picks.forEach(function(id) {
@@ -5604,6 +5220,7 @@ function pickRelic(relicId) {
     isChoosingUpgrade = false;
     running = true;
     pendingRelicChoices = [];
+    resetFrameClock();  // 🔧 ФИКС
     updateHUD();
 }
 
@@ -5613,6 +5230,7 @@ function pickRelic(relicId) {
 function showWaveBanner(modifier) {
     isChoosingUpgrade = true;
     running = false;
+    resetFrameClock();  // 🔧 ФИКС
 
     waveIcon.textContent = modifier.icon;
     waveName.textContent = modifier.name;
@@ -5630,7 +5248,16 @@ waveStartBtn.addEventListener('click', function() {
     isChoosingUpgrade = false;
     running = true;
     noHitWaveDamage = 0;
+    resetFrameClock();  // 🔧 ФИКС
     updateHUD();
+
+    // 🔧 ФИКС: после волны показать апгрейд
+    if (pendingUpgradeAfterWave) {
+        pendingUpgradeAfterWave = false;
+        setTimeout(function() {
+            if (!isChoosingUpgrade && running) showUpgradeChoice();
+        }, 200);
+    }
 });
 
 // ==========================================================
@@ -5684,6 +5311,7 @@ function reset() {
     levelTimer = 0;
     screenShake = 0;
     damageFlash = 0;
+    resetFrameClock();  // 🔧 ФИКС
 
     if (!currentProfile) {
         console.error('❌ currentProfile = null');
@@ -5713,21 +5341,17 @@ function reset() {
     lives = Math.max(s.startLives || 4, mode.startLives);
     if (mode.id === 'survival') lives = 1;
 
-    // 🎲 ROGUE: классовые бонусы
     var cls = getClass(selectedClass);
     if (mode.isRoguelike) {
         lives = cls.startHp;
-        // Не применяем HP-кристаллы — рогалик самодостаточен
         playerDamage = 0;
         critChance = cls.critChance || 0;
-        // Воровской crit перекрывает
         if (cls.passiveId === 'crit') critChance = 0.2;
     } else {
         lives += coreBonusCache.vitality;
         playerDamage = 0;
         critChance = 0;
     }
-    lives -= hpPenalty; // если вдруг осталось (между ранами не должно)
 
     level = 1;
     LEVEL_DURATION = mode.levelDuration;
@@ -5778,19 +5402,11 @@ function reset() {
     rerollCost = 50;
     pendingUpgradeChoices = [];
     pendingRelicChoices = [];
+    pendingUpgradeAfterWave = false;  // 🔧 ФИКС
 
-    // Классовые бонусы для рогалика
+    // Классовые бонусы
     if (mode.isRoguelike) {
-        if (cls.passiveId === 'aura') {
-            // аура обрабатывается в update
-        }
-        if (cls.passiveId === 'double_damage') {
-            playerDamage += 1;
-        }
-        if (cls.passiveId === 'coin_bonus') {
-            // обрабатывается в update через coinBonusMult
-        }
-        // Магнит класса
+        if (cls.passiveId === 'double_damage') playerDamage += 1;
         if (cls.magnet) buff.magnet = Math.max(buff.magnet, 5 * 60);
     }
 
@@ -5818,7 +5434,6 @@ function reset() {
     player.blinkTimer = 0;
     player.isBlinking = false;
 
-    // Метрики
     if (mode.isRoguelike) {
         s.rogueStats.runsPlayed = (s.rogueStats.runsPlayed || 0) + 1;
         persist();
@@ -5858,7 +5473,6 @@ function finishRun() {
     var isNewRecord = false;
 
     if (currentMode === 'rogue') {
-        // Рогалик: рекорд по уровню
         var bestLvl = s.rogueStats.bestLevel || 0;
         if (level > bestLvl) {
             s.rogueStats.bestLevel = level;
@@ -5868,7 +5482,6 @@ function finishRun() {
             s.modeBests.rogue.coins = score;
             isNewRecord = true;
         }
-        s.rogueStats.runsPlayed = (s.rogueStats.runsPlayed || 0) + 0; // уже инкрементировали
         if (score > s.bestCoins) s.bestCoins = score;
         if (level > s.bestLevel) s.bestLevel = level;
     } else if (currentMode === 'classic') {
@@ -5889,7 +5502,6 @@ function finishRun() {
     if (score > s.bestCoins) s.bestCoins = score;
     if (level > s.bestLevel) s.bestLevel = level;
 
-    // Кристаллы за новый рекорд
     if (isNewRecord) {
         crystalsEarned += 5;
         s.coreCrystals = (s.coreCrystals || 0) + 5;
@@ -5898,7 +5510,6 @@ function finishRun() {
         }, 500);
     }
 
-    // Осколки за рогалик
     if (currentMode === 'rogue') {
         var shardsEarned = Math.floor(level * 2);
         s.starShards = (s.starShards || 0) + shardsEarned;
@@ -5958,6 +5569,7 @@ function showGameOverModal(isNewRecord) {
 function togglePause() {
     if (!running || gameOver || isChoosingUpgrade) return;
     paused = !paused;
+    resetFrameClock();  // 🔧 ФИКС
     if (paused) {
         pauseMode.textContent = MODES[currentMode].name;
         pauseScore.textContent = score;
@@ -6015,7 +5627,7 @@ function applyDrop(type, x, y) {
         addParticles(px, py, '#fff', 20, 10);
         showToast('👻 Фантом!', 'success');
     } else if (type === 'medkit') {
-        if (lives < 5 + coreBonusCache.vitality + 3) {
+        if (lives < 8) {
             lives++;
             addParticles(px, py, '#ff5c7a', 20, 10);
             showToast('🩹 +1 жизнь!', 'success');
@@ -6025,9 +5637,16 @@ function applyDrop(type, x, y) {
             showToast('❤ Уже максимум — +20', 'info');
         }
     } else if (type === 'chest') {
-        // 🎲 В рогалике — реликвия, иначе — стандарт
         if (currentMode === 'rogue') {
-            showRelicChoice();
+            // Защита от повторного вызова
+            if (isChoosingUpgrade) {
+                var bonusGold = 200;
+                s.bank += bonusGold;
+                persist();
+                showToast('🎁 +' + bonusGold + ' золота!', 'legendary');
+            } else {
+                showRelicChoice();
+            }
         } else {
             buff.chest = 3 * 60; updateBuffBadges();
             addParticles(px, py, '#ff9800', 22, 10);
@@ -6103,13 +5722,12 @@ function explodeBomber(e, offscreen) {
 }
 
 // ==========================================================
-//   УРОВЕНЬ + ROGUE CHOICE
+//   УРОВЕНЬ
 // ==========================================================
 function levelUp() {
     var s = getSave();
     var mode = MODES[currentMode];
 
-    // Награда золотом (базовая)
     var baseGold = 15 + level * 5;
     var bonusHP = (levelStats.livesLostThisLevel === 0) ? 10 : 0;
     var bonusCoins = (levelStats.coinsThisLevel >= 10) ? 15 : 0;
@@ -6141,7 +5759,6 @@ function levelUp() {
     playSFX('level');
     updateHUD();
 
-    // Каждый 3-й уровень — кейс
     if (level % 3 === 0) {
         var caseType = 'common';
         if (level >= 15) caseType = 'mythic';
@@ -6153,17 +5770,13 @@ function levelUp() {
         showToast('🎁 Бесплатный ' + CASES[caseType].name + '!', 'legendary');
     }
 
-    // 🎲 ROGUELIKE: каждые 5 уровней — элитная волна + апгрейд
+    // 🎲 ROGUELIKE
     if (mode.isRoguelike) {
         if (level % 5 === 0 && level > 1) {
-            // Сначала волна, потом апгрейд
+            // 🔧 ФИКС: волна, апгрейд — после нажатия кнопки
             startEliteWave();
-            // После волны (по кнопке) showUpgradeChoice вызовется в update
-            setTimeout(function() {
-                if (!isChoosingUpgrade && running) showUpgradeChoice();
-            }, 100);
+            pendingUpgradeAfterWave = true;
         } else {
-            // Обычный апгрейд
             showUpgradeChoice();
         }
     }
@@ -6172,12 +5785,10 @@ function levelUp() {
 }
 
 function playerTakeDamage() {
-    // Dodge
     if (dodgeChance > 0 && Math.random() < dodgeChance) {
         addFloatingText(player.x + player.size/2, player.y - 10, 'MISS', '#7cffb2', 22);
         return;
     }
-    // Щит
     if (playerShields > 0) {
         playerShields--;
         addParticles(player.x + player.size/2, player.y + player.size/2, '#4fc3f7', 15, 10);
@@ -6201,7 +5812,6 @@ function playerTakeDamage() {
     }
 
     if (lives <= 0) {
-        // 🎲 Возрождение (Феникс)
         if (revivesLeft > 0) {
             revivesLeft--;
             lives = 2;
@@ -6218,7 +5828,7 @@ function playerTakeDamage() {
 }
 
 // ==========================================================
-//   UPDATE
+//   UPDATE — КРИТИЧНЫЕ ФИКСЫ
 // ==========================================================
 function update() {
     if (!running || gameOver || paused || isChoosingUpgrade) return;
@@ -6237,7 +5847,13 @@ function update() {
         }
     } else {
         levelTimer--;
-        if (levelTimer <= 0) levelUp();
+        if (levelTimer <= 0) {
+            // 🔧 ФИКС: сначала сбрасываем таймер, потом levelUp
+            levelTimer = LEVEL_DURATION;
+            levelUp();
+            // 🔧 Если открылась модалка — прерываем update
+            if (isChoosingUpgrade) return;
+        }
     }
 
     // Combo
@@ -6321,7 +5937,7 @@ function update() {
         }
     }
 
-    // Движение игрока
+    // Движение
     var dirX = 0, dirY = 0;
     if (player.frozen > 0) {
         player.frozen--;
@@ -6341,7 +5957,6 @@ function update() {
         var spd = player.speed * (s.playerSpeedBonus || 1);
         spd *= coreBonusCache.speed;
 
-        // Rogue: класс + апгрейды
         if (mode.isRoguelike) {
             spd *= getClass(selectedClass).speed;
             if (runUpgrades.speed) spd *= Math.pow(1.08, runUpgrades.speed);
@@ -6410,15 +6025,15 @@ function update() {
         });
     }
 
-    // Спавн
+    // Спавн монет
     if (frame % 40 === 0) spawnCoin();
 
+    // Спавн врагов
     var baseInterval;
     if (level <= 3) baseInterval = 75;
     else baseInterval = Math.max(15, 55 - (level - 1) * 6);
     var enemyMult = mode.enemyMultiplier || 1;
 
-    // Rogue: модификатор волны
     if (mode.isRoguelike && currentWaveModifier) {
         if (currentWaveModifier.enemyMult) enemyMult *= currentWaveModifier.enemyMult;
     }
@@ -6504,7 +6119,6 @@ function update() {
             var comboMult = getComboMultiplier();
             gained = Math.floor(gained * comboMult);
 
-            // Крит
             var isCrit = false;
             if (mode.isRoguelike && (critChance > 0) && Math.random() < critChance) {
                 gained *= 3;
@@ -6523,7 +6137,6 @@ function update() {
             persist();
             playSFX('coin');
 
-            // Explosive coins
             if (mode.isRoguelike && explosiveCoins) {
                 var ex = c.x + c.size/2, ey = c.y + c.size/2;
                 addParticles(ex, ey, '#ff9800', 15, 12);
@@ -6569,7 +6182,7 @@ function update() {
         if (e.hitFlash > 0) e.hitFlash--;
         if (frozen) continue;
 
-        // Движение по типу (упрощено — как в 2.5)
+        // Движение по типам
         if (et.shape === 'oval') {
             e.flightTime++;
             if (e.flightTime < et.flightTime) {
@@ -6689,7 +6302,7 @@ function update() {
             e.x += Math.sin(e.wobble) * 1.0;
         }
 
-        // Лазер урон
+        // Лазер
         if (et.shape === 'laser' && e.laserCharging && buff.phantom <= 0) {
             var lx = e.x + e.size / 2;
             if (Math.abs(px - lx) < 5 && py < e.y + e.size) {
@@ -6697,9 +6310,8 @@ function update() {
             }
         }
 
-        // Урон от игрока (апгрейд damage)
+        // Урон от игрока (фантом)
         if (mode.isRoguelike && playerDamage > 0 && buff.phantom > 0) {
-            // Фантом — контактный урон
             var collidesP = e.x < player.x + player.size && e.x + e.size > player.x &&
                             e.y < player.y + player.size && e.y + e.size > player.y;
             if (collidesP && frame % 12 === 0) {
@@ -6719,14 +6331,12 @@ function update() {
             if (buff.phantom > 0) continue;
             if (et.shape === 'ghost' && e.ghostAlpha < 0.5) continue;
 
-            // Thorns
             if (mode.isRoguelike && thornsDamage > 0) {
                 e.hp -= thornsDamage;
                 e.hitFlash = 6;
                 addParticles(e.x + e.size/2, e.y + e.size/2, '#aed581', 6, 6);
             }
 
-            // Damage (без фантома)
             if (mode.isRoguelike && playerDamage > 0) {
                 e.hp -= playerDamage;
                 e.hitFlash = 6;
@@ -6757,7 +6367,7 @@ function update() {
         }
     }
 
-    // Уборка врагов (с дропом)
+    // Уборка врагов
     enemies = enemies.filter(function(en) {
         if (en.hp <= 0) return false;
         if (en.y >= canvas.height + 30) {
@@ -6785,7 +6395,6 @@ function update() {
         enemies.forEach(function(e) {
             if (e.hp <= 0 && !e._chainDone) {
                 e._chainDone = true;
-                // Найти ближайшего
                 var best = null, bestD = 200;
                 var ex = e.x + e.size/2, ey = e.y + e.size/2;
                 enemies.forEach(function(other) {
@@ -6821,9 +6430,11 @@ function update() {
         }
     }
 
-    // Боссы (упрощённо — только обработка урона и смерти)
+    // Боссы — с защитой от индексов
     for (var bossI = bosses.length - 1; bossI >= 0; bossI--) {
         var boss = bosses[bossI];
+        if (!boss) continue;
+
         if (boss.entering) {
             boss.y += 1.5;
             if (boss.y >= 60) { boss.y = 60; boss.entering = false; }
@@ -6838,7 +6449,6 @@ function update() {
         else if (hpPct <= 0.66) boss.phase = 2;
         else boss.phase = 1;
 
-        // Движение + стрельба (сокращено)
         if (boss.id === 'dragon') {
             boss.x = canvas.width / 2 - boss.size / 2 + Math.sin(boss.wobble * 0.5) * 150;
             boss.y = 60 + Math.sin(boss.wobble * 0.3) * 20;
@@ -6882,7 +6492,6 @@ function update() {
             }
         }
 
-        // Столкновение с игроком
         var bx1 = boss.x, by1 = boss.y, bs = boss.size;
         if (player.x < bx1 + bs && player.x + player.size > bx1 &&
             player.y < by1 + bs && player.y + player.size > by1) {
@@ -6894,7 +6503,6 @@ function update() {
             }
         }
 
-        // Смерть босса
         if (boss.hp <= 0) {
             var b = boss.type;
             var saveB = getSave();
@@ -6919,6 +6527,7 @@ function update() {
             persist();
             updateMainMenuStats();
             checkAchievements();
+            bossI--; // защита от сдвига индексов
         }
     }
 
@@ -6947,12 +6556,11 @@ function update() {
         if (ft.life <= 0) floatingTexts.splice(fi, 1);
     }
 
-    // Обновление HUD по таймеру (для прогресс-бара)
     if (frame % 6 === 0) updateHUD();
 }
 
 // ==========================================================
-//   DRAW (упрощённые версии из 2.5 + новое для орбиталей/ауры)
+//   DRAW
 // ==========================================================
 function getCoinGradient(big) {
     if (big && gradCache.coinBig) return gradCache.coinBig;
@@ -7174,7 +6782,6 @@ function drawWeb(w) {
 }
 
 function drawMonster(e) {
-    // Упрощённая отрисовка (единая база)
     var t = e.t;
     ctx.save();
     ctx.shadowColor = t.glow;
@@ -7189,7 +6796,6 @@ function drawMonster(e) {
     g.addColorStop(0, t.c1);
     g.addColorStop(1, t.c2);
     ctx.fillStyle = g;
-    // Все формы — простой круг/квадрат
     if (t.shape === 'square' || t.shape === 'hex' || t.shape === 'boss' || t.shape === 'crystal') {
         ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
     } else if (t.shape === 'barrier') {
@@ -7273,7 +6879,6 @@ function drawBoss(boss) {
 }
 
 function drawOrbitals() {
-    var t = performance.now();
     orbitals.forEach(function(o) {
         if (!o.x) return;
         ctx.save();
@@ -7341,7 +6946,6 @@ function draw() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Freeze overlay
     if (buff.freeze > 0) {
         ctx.fillStyle = 'rgba(0,229,255,0.08)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -7380,13 +6984,11 @@ function draw() {
     }
     ctx.globalAlpha = 1;
 
-    // Damage overlay
     if (damageFlash > 0) {
         ctx.fillStyle = 'rgba(255,0,0,' + (damageFlash * 0.4) + ')';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // No-hit волна — индикатор
     if (currentMode === 'rogue' && noHitWaveActive) {
         ctx.save();
         ctx.fillStyle = noHitWaveDamage === 0 ? 'rgba(124,255,178,0.9)' : 'rgba(255,92,122,0.9)';
@@ -7397,7 +6999,6 @@ function draw() {
         ctx.restore();
     }
 
-    // Combo indicator
     if (combo >= 3) {
         ctx.save();
         var comboS = 1 + Math.sin(performance.now() / 150) * 0.08;
@@ -7420,12 +7021,8 @@ function draw() {
 }
 
 // ==========================================================
-//   DELTA-TIME ЦИКЛ
+//   ГЛАВНЫЙ ЦИКЛ — С ЗАЩИТОЙ ОТ НАКОПЛЕНИЯ
 // ==========================================================
-var lastTime = performance.now();
-var frameBudget = 1000 / 60;
-var accumulated = 0;
-
 function loop(now) {
     if (!now) now = performance.now();
     var elapsed = now - lastTime;
@@ -7436,8 +7033,13 @@ function loop(now) {
     var speedMult = s.gameSpeed || 1;
     accumulated += elapsed * speedMult;
 
+    // 🔧 ФИКС: если accumulated накопил слишком много — сбрасываем
+    if (accumulated > frameBudget * 3) {
+        accumulated = frameBudget;
+    }
+
     var stepCount = 0;
-    while (accumulated >= frameBudget && stepCount < 5) {
+    while (accumulated >= frameBudget && stepCount < 3) {
         try { update(); } catch (e) {
             console.error('❌ update() ERROR:', e.message);
             console.error('   stack:', e.stack);
@@ -7489,10 +7091,10 @@ console.log('🎲 Рогалик: выбирай апгрейды каждые 1
 console.log('⚡ Синергии: комбинируй для мощных эффектов');
 console.log('🏺 Реликвии: открывай сундуки');
 console.log('🌊 Волны: каждые 5 уровней — элитный модификатор');
+console.log('🔧 ВСЕ ФИКСЫ БАГОВ ВНЕДРЕНЫ');
 
 lastTime = performance.now();
 requestAnimationFrame(loop);
 </script>
 </body>
 </html>
-
