@@ -1,5 +1,4 @@
-function sfStar(c,x,y,r1,r2,n,rot){c.beginPath();for(var i=0;i<n*2;i++){var a=(rot||0)-Math.PI/2+i*Math.PI/n,rr=i%2?r2:r1,px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr;if(i===0)c.moveTo(px,py);else c.lineTo(px,py);}c.closePath();}
-function sfBackdrop(theme,t){var w=canvas.width,h=canvas.height,time=t*.001;ctx.save();ctx.globalCompositeOperation='screen';for(var i=0;i<22;i++){var x=(i*137+time*9*(i%3+1))%w,y=(i*83+Math.sin(time*.3+i)*35)%h,r=8+(i%7)*6,g=ctx.createRadialGradient(x,y,0,x,y,r*5);g.addColorStop(0,'rgba(120,180,255,.06)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*5,0,Math.PI*2);ctx.fill();}for(var j=0;j<85;j++){var sx=(j*71+time*7*(j%4+1))%w,sy=(j*113+time*2)%h,sa=.2+.45*(.5+.5*Math.sin(time*2+j));ctx.globalAlpha=sa;ctx.fillStyle=j%5===0?'#fff':j%3===0?'#a7d9ff':'#7587d8';ctx.beginPath();ctx.arc(sx,sy,.5+(j%3)*.55,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;ctx.restore();}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -1528,6 +1527,8 @@ function sfBackdrop(theme,t){var w=canvas.width,h=canvas.height,time=t*.001;ctx.
 </div>
 
 <script>
+function sfStar(c,x,y,r1,r2,n,rot){c.beginPath();for(var i=0;i<n*2;i++){var a=(rot||0)-Math.PI/2+i*Math.PI/n,rr=i%2?r2:r1,px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr;if(i===0)c.moveTo(px,py);else c.lineTo(px,py);}c.closePath();}
+function sfBackdrop(theme,t){var w=canvas.width,h=canvas.height,time=t*.001;ctx.save();ctx.globalCompositeOperation='screen';for(var i=0;i<22;i++){var x=(i*137+time*9*(i%3+1))%w,y=(i*83+Math.sin(time*.3+i)*35)%h,r=8+(i%7)*6,g=ctx.createRadialGradient(x,y,0,x,y,r*5);g.addColorStop(0,'rgba(120,180,255,.06)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*5,0,Math.PI*2);ctx.fill();}for(var j=0;j<85;j++){var sx=(j*71+time*7*(j%4+1))%w,sy=(j*113+time*2)%h,sa=.2+.45*(.5+.5*Math.sin(time*2+j));ctx.globalAlpha=sa;ctx.fillStyle=j%5===0?'#fff':j%3===0?'#a7d9ff':'#7587d8';ctx.beginPath();ctx.arc(sx,sy,.5+(j%3)*.55,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;ctx.restore();}
 // ==========================================================
 //   STARFALL DASH 2.6 «ROGUELIKE EVOLUTION» — ЧАСТЬ 2/4
 //   Константы • Миграция • Апгрейды • Реликвии • Классы
