@@ -4610,7 +4610,7 @@ console.log('✓ Часть 3/4 загружена');
 
 // ===== ИГРОК =====
 var player = {
-    x: 285, y: 340, size: 30, speed: 7, frozen: 0, inWeb: false,
+    x: 285, y: 340, size: 30, speed: 7, vx: 0, vy: 0, frozen: 0, inWeb: false,
     breath: 0, tilt: 0, lastDirX: 0, lastDirY: 1,
     damageFlash: 0, blinkTimer: 0, isBlinking: false
 };
@@ -4643,8 +4643,27 @@ function getCoinMultiplier() {
 }
 
 function rectsCollide(a, b) {
-    return a.x < b.x + b.size && a.x + a.size > b.x &&
-           a.y < b.y + b.size && a.y + a.size > b.y;
+    if (!a || !b) return false;
+    var aw = Math.max(1, a.size || a.width || 0);
+    var ah = Math.max(1, a.size || a.height || 0);
+    var bw = Math.max(1, b.size || b.width || 0);
+    var bh = Math.max(1, b.size || b.height || 0);
+    return a.x < b.x + bw && a.x + aw > b.x &&
+           a.y < b.y + bh && a.y + ah > b.y;
+}
+function sfClampPlayer() {
+    var maxX = Math.max(0, canvas.width - player.size);
+    var maxY = Math.max(0, canvas.height - player.size);
+    player.x = Math.max(0, Math.min(maxX, Number.isFinite(player.x) ? player.x : canvas.width * .5 - player.size * .5));
+    player.y = Math.max(0, Math.min(maxY, Number.isFinite(player.y) ? player.y : canvas.height * .75 - player.size * .5));
+}
+function sfPlayerTouches(x, y, size, extra) {
+    var pcx = player.x + player.size * .5;
+    var pcy = player.y + player.size * .5;
+    var ocx = x + size * .5;
+    var ocy = y + size * .5;
+    var rr = player.size * .5 + size * .5 + (extra || 0);
+    return Math.hypot(pcx - ocx, pcy - ocy) <= rr;
 }
 
 function addParticles(x, y, color, count, spread) {
@@ -6095,11 +6114,16 @@ function update() {
         if (buff.speedBoost > 0) spd *= 2;
         if (player.inWeb) spd *= 0.5;
 
-        player.x += dx * spd;
-        player.y += dy * spd;
+        player.vx = dx * spd;
+        player.vy = dy * spd;
+        player.x += player.vx;
+        player.y += player.vy;
     }
-    player.x = Math.max(0, Math.min(canvas.width - player.size, player.x));
-    player.y = Math.max(0, Math.min(canvas.height - player.size, player.y));
+    if (player.frozen > 0) {
+        player.vx = 0;
+        player.vy = 0;
+    }
+    sfClampPlayer();
 
     if (Math.abs(dirX) > 0.05 || Math.abs(dirY) > 0.05) {
         player.lastDirX = dirX;
@@ -6240,7 +6264,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
     // Монеты
     coins.forEach(function(c) { c.y += c.speed; c.phase += 0.18; });
     coins = coins.filter(function(c) {
-        if (rectsCollide(player, c)) {
+        if (sfPlayerTouches(c.x, c.y, c.size, 4)) {
             score++;
             levelStats.coinsThisLevel++;
 
@@ -6461,11 +6485,14 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             }
         }
 
-        // Столкновение
+        // Столкновение: единый центрированный хитбокс для всех монстров.
         var collideW = et.shape === 'barrier' ? (et.barWidth || 60) : e.size;
         var collideH = et.shape === 'barrier' ? 15 : e.size;
-        var collides = e.x < player.x + player.size && e.x + collideW > player.x &&
-                       e.y < player.y + player.size && e.y + collideH > player.y;
+        var collides = sfPlayerTouches(e.x, e.y, Math.max(collideW, collideH), 2);
+        if (et.shape === 'barrier') {
+            collides = player.x < e.x + collideW && player.x + player.size > e.x &&
+                       player.y < e.y + collideH && player.y + player.size > e.y;
+        }
 
         if (collides) {
             if (buff.phantom > 0) continue;
@@ -6713,6 +6740,9 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             bossI--; // защита от сдвига индексов
         }
     }
+
+    // Финальный clamp после магнитов/отталкиваний/монстров.
+    sfClampPlayer();
 
     // Паутина
     player.inWeb = false;
