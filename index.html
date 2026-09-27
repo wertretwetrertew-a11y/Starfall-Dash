@@ -2384,11 +2384,41 @@ function getSave() {
     return makeDefaultSave();
 }
 
-function persist() {
+var persistTimer = null;
+
+function persistNow() {
     if (!currentProfile) return;
-    try { saveProfile(currentProfile.login, currentProfile); }
-    catch (e) { console.warn('persist error:', e); }
+    try {
+        saveProfile(currentProfile.login, currentProfile);
+    } catch (e) {
+        console.warn('persist error:', e);
+    }
 }
+
+function persist() {
+    persistNow();
+}
+
+function persistDeferred() {
+    if (!currentProfile || persistTimer) return;
+    persistTimer = setTimeout(function() {
+        persistTimer = null;
+        persistNow();
+    }, 750);
+}
+
+function flushPersist() {
+    if (persistTimer) {
+        clearTimeout(persistTimer);
+        persistTimer = null;
+    }
+    persistNow();
+}
+
+window.addEventListener('pagehide', flushPersist);
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') flushPersist();
+});
 
 function getTodayStr() {
     var d = new Date();
@@ -2556,6 +2586,7 @@ function pickRandomRelics(count, exclude) {
 //   ЗАГЛУШКИ ПЕРЕМЕННЫХ — С ВСЕМИ ФИКСАМИ
 // ==========================================================
 var running = false, paused = false, gameOver = false;
+var autoPausedByVisibility = false;
 var score = 0, goldEarned = 0, crystalsEarned = 0, lives = 4;
 var frame = 0, level = 1;
 var levelTimer = 15 * 60, LEVEL_DURATION = 15 * 60;
@@ -2570,7 +2601,7 @@ var coins = [], enemies = [], enemyBullets = [], webs = [];
 var particles = [], floatingTexts = [], drops = [], bosses = [];
 var meteors = [], parallaxStars = [];
 var weatherParticles = [], weatherType = 'stars';
-var gradCache = { coinSmall:null, coinBig:null };
+var gradCache = { coinSmall:null, coinBig:null, background:null, backgroundKey:'' };
 var newTimeRecord = false;
 var lastErrorShown = '';
 
@@ -2830,6 +2861,7 @@ function logoutToLogin() {
         paused = false;
     }
     stopMusic();
+    if (currentProfile) persist();
     currentProfile = null;
     storage.remove(CURRENT_KEY);
     startScreen.classList.add('hidden');
@@ -3476,6 +3508,8 @@ function applyTheme() {
     canvas.style.borderColor = t.glow + '88';
     gradCache.coinSmall = null;
     gradCache.coinBig = null;
+    gradCache.background = null;
+    gradCache.backgroundKey = '';
     if (typeof initWeather === 'function') initWeather();
 }
 
@@ -5502,6 +5536,7 @@ function finishRunSilent() {
     var s = getSave();
     runTime = Math.floor((performance.now() - runStartTime) / 1000);
     s.totalTime = (s.totalTime || 0) + runTime;
+    persist();
 }
 
 // ==========================================================
@@ -6196,7 +6231,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             var textColor = isCrit ? '#ff1744' : (combo >= 5 ? '#ff9800' : '#ffd93d');
             var textSize = isCrit ? 32 : (gained >= 20 ? 28 : (gained >= 10 ? 24 : 20));
             addFloatingText(c.x + c.size/2, c.y, (isCrit ? 'КРИТ +' : '+') + gained, textColor, textSize);
-            persist();
+            persistDeferred();
             playSFX('coin');
 
             if (mode.isRoguelike && explosiveCoins) {
@@ -6620,6 +6655,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
     }
 
     if (frame % 6 === 0) updateHUD();
+    if (frame % 60 === 0) persistDeferred();
 }
 
 // ==========================================================
@@ -6965,12 +7001,17 @@ function draw() {
 
     var s = getSave();
     var theme = THEMES[s.equippedTheme] || THEMES.cosmos;
-    var bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    bgGrad.addColorStop(0, theme.bg1);
-    bgGrad.addColorStop(0.5, theme.bg2);
-    bgGrad.addColorStop(1, theme.bg3);
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(-30, -30, canvas.width + 60, canvas.height + 60);
+    var bgKey = s.equippedTheme + '|' + canvas.width + 'x' + canvas.height;
+    if (!gradCache.background || gradCache.backgroundKey !== bgKey) {
+        var bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        bgGrad.addColorStop(0, theme.bg1);
+        bgGrad.addColorStop(0.5, theme.bg2);
+        bgGrad.addColorStop(1, theme.bg3);
+        gradCache.background = bgGrad;
+        gradCache.backgroundKey = bgKey;
+    }
+    ctx.fillStyle = gradCache.background;
+    ctx.fillRect(-30, -30, canvas.width + 60, canvas.height + 60);    ctx.fillRect(-30, -30, canvas.width + 60, canvas.height + 60);
 
     // Параллакс
     for (var psi = 0; psi < parallaxStars.length; psi++) {
@@ -7157,6 +7198,24 @@ console.log('🌊 Волны: каждые 5 уровней — элитный �
 console.log('🔧 ВСЕ ФИКСЫ БАГОВ ВНЕДРЕНЫ');
 
 lastTime = performance.now();
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        if (running && !paused && !gameOver && !isChoosingUpgrade) {
+            paused = true;
+            autoPausedByVisibility = true;
+            resetFrameClock();
+            stopMusic();
+        }
+    } else if (autoPausedByVisibility) {
+        autoPausedByVisibility = false;
+        if (running && !gameOver && !isChoosingUpgrade) {
+            paused = false;
+            resetFrameClock();
+            startMusic();
+        }
+    }
+});
+
 requestAnimationFrame(loop);
 </script>
 </body>
