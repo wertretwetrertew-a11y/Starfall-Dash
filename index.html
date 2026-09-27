@@ -7037,6 +7037,27 @@ function drawOrbitals() {
 
 
 /* === COSMIC NEON 2.0 — cinematic render pass === */
+var SF_STATION_ASSET = new Image();
+SF_STATION_ASSET.decoding = 'async';
+SF_STATION_ASSET.src = 'assets/starfall-megastation.svg';
+function sfDrawStation(theme,w,h,time){
+    if(!SF_STATION_ASSET.complete || !SF_STATION_ASSET.naturalWidth) return;
+    var sw=w*0.82, sh=sw*0.5, sx=w*.09, sy=h*.34+Math.sin(time*.12)*3;
+    ctx.save();
+    ctx.globalAlpha=.20;
+    ctx.globalCompositeOperation='screen';
+    ctx.filter='blur(12px)';
+    ctx.drawImage(SF_STATION_ASSET,sx,sy,sw,sh);
+    ctx.filter='none';
+    ctx.globalAlpha=.72;
+    ctx.drawImage(SF_STATION_ASSET,sx,sy,sw,sh);
+    ctx.globalCompositeOperation='lighter';
+    ctx.globalAlpha=.14;
+    ctx.shadowColor=theme.glow||'#55eaff';ctx.shadowBlur=24;
+    ctx.drawImage(SF_STATION_ASSET,sx,sy,sw,sh);
+    ctx.restore();
+}
+
 function sfDrawWorldFX(theme, t) {
     var w = canvas.width, h = canvas.height, time = t * 0.001;
     ctx.save();
@@ -7069,6 +7090,8 @@ function sfDrawWorldFX(theme, t) {
         if(b%2===0){ctx.fillStyle='rgba(80,220,255,.42)';for(var wl=0;wl<3;wl++)ctx.fillRect(bx+3,horizon-bh+7+wl*12,2,4);}
     }
     ctx.globalAlpha=1;
+
+    sfDrawStation(theme,w,h,time);
 
     for(var a=0;a<9;a++){
         var ax=(a*173+time*(8+a*1.7))%(w+180)-90, ay=h*(.14+(a*37%48)/100), ar=7+(a%5)*4;
