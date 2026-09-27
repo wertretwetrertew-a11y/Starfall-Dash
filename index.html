@@ -7087,8 +7087,42 @@ function sfDrawWorldFX(theme, t) {
     ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(w,gy); ctx.stroke(); ctx.restore();
 }
 
+var SF_VFX_ASSET = new Image();
+SF_VFX_ASSET.decoding = 'async';
+SF_VFX_ASSET.src = 'assets/starfall-vfx.svg';
+function sfVfxFrame(frame,cx,cy,size,alpha,rot,blend){
+    if(!SF_VFX_ASSET.complete || !SF_VFX_ASSET.naturalWidth) return false;
+    var sx=frame*256;
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(rot||0);ctx.globalAlpha=alpha==null?1:alpha;
+    ctx.globalCompositeOperation=blend||'lighter';
+    ctx.drawImage(SF_VFX_ASSET,sx,0,256,256,-size/2,-size/2,size,size);
+    ctx.restore();return true;
+}
+function sfCinematicHit(cx,cy,r,glow,power,now){
+    var p=Math.max(0,Math.min(1,power||1));
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    ctx.globalAlpha=.30*p;ctx.strokeStyle=glow;ctx.lineWidth=2+p*3;
+    ctx.beginPath();ctx.arc(cx,cy,r*(.55+.35*(1-p)),now*.012,now*.012+Math.PI*(1.1+p*1.4));ctx.stroke();
+    ctx.globalAlpha=.72*p;ctx.strokeStyle='#fff';ctx.lineWidth=1.5;
+    for(var i=0;i<8;i++){
+        var a=i*Math.PI/4+now*.004, len=r*(.28+.38*p)+Math.sin(now*.02+i)*r*.08;
+        ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*r*.22,cy+Math.sin(a)*r*.22);ctx.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);ctx.stroke();
+    }
+    ctx.restore();
+}
+function sfDashCinematic(now){
+    var speed=Math.hypot(player.vx||0,player.vy||0);
+    if(!player.dashing && speed<1.8)return;
+    var cx=player.x+player.size/2,cy=player.y+player.size/2,dx=player.lastDirX||((player.vx||1)/Math.max(speed,1)),dy=player.lastDirY||((player.vy||0)/Math.max(speed,1));
+    sfVfxFrame(3,cx-dx*player.size*.15,cy-dy*player.size*.15,player.size*2.25,.48+(player.dashing?.28:0),Math.atan2(dy,dx), 'lighter');
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var i=0;i<5;i++){var off=(i+1)*player.size*.32;ctx.globalAlpha=.16-i*.025;ctx.strokeStyle=i%2?'#b98cff':'#55eaff';ctx.lineWidth=2.5-i*.3;ctx.beginPath();ctx.moveTo(cx-dx*off-dy*player.size*.25,cy-dy*off+dx*player.size*.25);ctx.lineTo(cx-dx*(off+player.size*.8),cy-dy*(off+player.size*.8));ctx.stroke();}
+    ctx.restore();
+}
+
 function sfDrawCombatFX(t) {
     var w=canvas.width,h=canvas.height,time=t*.001; ctx.save(); ctx.globalCompositeOperation='lighter';
+    sfDashCinematic(t);
     var vx=player.vx||0,vy=player.vy||0,speed=Math.hypot(vx,vy);
     if(speed>1.2){
         var pcx=player.x+player.size/2,pcy=player.y+player.size/2,dx=player.lastDirX||(vx/speed),dy=player.lastDirY||(vy/speed);
@@ -7103,6 +7137,8 @@ function sfDrawCombatFX(t) {
         if((e.hitFlash||0)>0){
             var ex=e.x+e.size/2,ey=e.y+e.size/2,er=e.size*.62;
             ctx.globalAlpha=Math.min(.8,e.hitFlash*2);
+            sfVfxFrame(0,ex,ey,er*2.2,Math.min(.65,e.hitFlash*1.7),time*.8,'lighter');
+            sfCinematicHit(ex,ey,er,e.t&&e.t.glow||'#ff5c7a',Math.min(1,e.hitFlash*1.4),t);
             for(var k=0;k<6;k++){
                 var aa=time*4+k*Math.PI/3; ctx.strokeStyle=k%2?'#fff':((e.t&&e.t.glow)||'#ff5c7a'); ctx.lineWidth=2;
                 ctx.beginPath(); ctx.moveTo(ex+Math.cos(aa)*er*.35,ey+Math.sin(aa)*er*.35);
@@ -7116,6 +7152,7 @@ function sfDrawCombatFX(t) {
         ctx.shadowColor=boss.type.glow||'#ff4d9d'; ctx.shadowBlur=18;
         ctx.beginPath(); ctx.arc(bx,by,br*1.42*pulse,time*.7,time*.7+4.5); ctx.stroke();
         ctx.globalAlpha=.38; ctx.fillStyle=boss.type.c1||'#fff'; ctx.beginPath(); ctx.arc(bx,by,br*.15*pulse,0,Math.PI*2); ctx.fill();
+        if((boss.hp||0)/(boss.maxHp||1)<.5){ sfVfxFrame(2,bx,by,br*2.15,.20+.08*Math.sin(time*6+bi),-time*.35,'lighter'); }
     }
     ctx.globalCompositeOperation='source-over'; ctx.restore();
     var vg=ctx.createRadialGradient(w/2,h*.45,Math.min(w,h)*.18,w/2,h*.45,Math.max(w,h)*.72);
