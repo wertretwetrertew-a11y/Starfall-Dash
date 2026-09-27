@@ -2603,6 +2603,7 @@ var pendingRelicChoices = [];
 var pendingUpgradeAfterWave = false;  // 🔧 ФИКС: флаг для элитной волны
 var rerollCost = 50;
 var isChoosingUpgrade = false;
+var _finishRunCalled = false;  // 🔧 ФИКС: защита от двойного вызова finishRun
 
 var coreBonusCache = {
     vitality: 0, speed: 1, magnet: 0, greed: 1, combo: 0, luck: 0
@@ -4419,67 +4420,99 @@ if (btnRestart) {
     });
 }
 
-btnPause.addEventListener('click', togglePause);
-pauseResume.addEventListener('click', togglePause);
-pauseMenu.addEventListener('click', function() {
-    if (isChoosingUpgrade) return;
-    paused = false;
-    running = false;
-    gameOver = false;
-    pauseModal.classList.remove('open');
-    document.body.classList.remove('playing');
-    if (typeof finishRunSilent === 'function') finishRunSilent();
-    stopMusic();
-    startScreen.classList.remove('hidden');
-    updateMainMenuStats();
-});
+// 🔧 ФИКС: оборачиваем в функцию, чтобы togglePause был уже определён
+if (typeof btnPause !== 'undefined' && btnPause) {
+    btnPause.addEventListener('click', function() { togglePause(); });
+}
+if (typeof pauseResume !== 'undefined' && pauseResume) {
+    pauseResume.addEventListener('click', function() { togglePause(); });
+}
+if (pauseMenu) {
+    pauseMenu.addEventListener('click', function() {
+        if (isChoosingUpgrade) return;
+        paused = false;
+        running = false;
+        gameOver = false;
+        pauseModal.classList.remove('open');
+        document.body.classList.remove('playing');
+        if (typeof finishRunSilent === 'function') finishRunSilent();
+        stopMusic();
+        startScreen.classList.remove('hidden');
+        updateMainMenuStats();
+    });
+}
 
-goRestart.addEventListener('click', function() {
-    gameoverModal.classList.remove('open');
-    document.body.classList.add('playing');
-    gameOver = false;
-    paused = false;
-    reset();
-});
+// 🔧 ФИКС: обработчики gameover-кнопок перенесены с защитой
+if (goRestart) {
+    goRestart.addEventListener('click', function() {
+        gameoverModal.classList.remove('open');
+        document.body.classList.add('playing');
+        gameOver = false;
+        paused = false;
+        running = false;
+        isChoosingUpgrade = false;
+        _finishRunCalled = false;
+        setTimeout(function() { reset(); }, 0);
+    });
+}
 
-goMenu.addEventListener('click', function() {
-    gameoverModal.classList.remove('open');
-    document.body.classList.remove('playing');
-    startScreen.classList.remove('hidden');
-    running = false;
-    gameOver = false;
-    paused = false;
-    stopMusic();
-    updateMainMenuStats();
-});
+if (goMenu) {
+    goMenu.addEventListener('click', function() {
+        gameoverModal.classList.remove('open');
+        document.body.classList.remove('playing');
+        startScreen.classList.remove('hidden');
+        running = false;
+        gameOver = false;
+        paused = false;
+        isChoosingUpgrade = false;
+        _finishRunCalled = false;
+        stopMusic();
+        updateMainMenuStats();
+    });
+}
 
-goShare.addEventListener('click', function() { shareResult(); });
+if (goShare) {
+    goShare.addEventListener('click', function() {
+        try {
+            shareResult();
+        } catch (e) {
+            console.error('Share error:', e);
+            showToast('Ошибка при отправке', 'error');
+        }
+    });
+}
 
 function shareResult() {
-    var mode = MODES[currentMode];
+    var mode = MODES[currentMode] || MODES.classic;
     var text = '✦ Starfall Dash 2.6 «Roguelike» ✦\n' +
         'Режим: ' + mode.icon + ' ' + mode.name + '\n' +
-        'Монет: ' + score + '\n' +
-        'Уровень: ' + level + '\n' +
-        'Время: ' + formatTime(runTime) + '\n' +
-        'Золота: ' + goldEarned + '\n' +
-        '💎 Кристаллов: ' + crystalsEarned;
+        'Монет: ' + (score || 0) + '\n' +
+        'Уровень: ' + (level || 1) + '\n' +
+        'Время: ' + formatTime(runTime || 0) + '\n' +
+        'Золота: ' + (goldEarned || 0) + '\n' +
+        '💎 Кристаллов: ' + (crystalsEarned || 0);
 
-    if (currentMode === 'rogue') {
+    if (currentMode === 'rogue' && runUpgrades) {
         var upgradeNames = Object.keys(runUpgrades).map(function(id) {
-            return UPGRADE_POOL[id].name + '×' + runUpgrades[id];
+            return UPGRADE_POOL[id] ? UPGRADE_POOL[id].name + '×' + runUpgrades[id] : id;
         }).join(', ');
         if (upgradeNames) text += '\n🎲 Апгрейды: ' + upgradeNames;
     }
 
-    if (navigator.share) {
-        navigator.share({ title: 'Starfall Dash 2.6', text: text }).catch(function(e) {});
-    } else if (navigator.clipboard) {
+    // 🔧 ФИКС: сначала пробуем clipboard (надёжнее на ПК), потом share
+    if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() {
             showToast('📋 Результат скопирован!', 'success');
         }).catch(function() {
-            showToast('Не удалось поделиться', 'error');
+            // fallback на navigator.share
+            if (navigator.share) {
+                navigator.share({ title: 'Starfall Dash 2.6', text: text }).catch(function(e) {});
+            } else {
+                showToast('Не удалось скопировать', 'error');
+            }
         });
+    } else if (navigator.share) {
+        navigator.share({ title: 'Starfall Dash 2.6', text: text }).catch(function(e) {});
     } else {
         showToast('Share не поддерживается', 'info');
     }
@@ -5318,6 +5351,7 @@ function reset() {
     levelTimer = 0;
     screenShake = 0;
     damageFlash = 0;
+    _finishRunCalled = false;  // 🔧 ФИКС: сбрасываем флаг завершения
     resetFrameClock();  // 🔧 ФИКС
 
     if (!currentProfile) {
@@ -5470,7 +5504,6 @@ function finishRunSilent() {
 // ==========================================================
 //   ЗАВЕРШЕНИЕ ИГРЫ
 // ==========================================================
-var _finishRunCalled = false;
 
 function finishRun() {
     // 🔧 ФИКС: защита от двойного вызова
