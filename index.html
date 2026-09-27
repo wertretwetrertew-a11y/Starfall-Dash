@@ -1136,6 +1136,26 @@
     .menu-v3 .menu-footer{width:min(820px,96vw);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px 0}.menu-v3 .menu-footer .footer-hint{color:#657594;font-size:10px;font-weight:700}.menu-v3 .menu-footer .bottom-row{margin:0}
     @media(max-width:700px){#start-screen.menu-v3{padding-top:16px}.menu-v3 .menu-topbar{align-items:flex-start}.menu-v3 .profile-badge{max-width:145px}.menu-v3 .profile-badge .pb-nick{max-width:78px}.menu-v3 .stats-line{justify-content:center}.menu-v3 .stats-line .sl-item{flex:1 1 28%;justify-content:center}.menu-v3 .menu-layout{grid-template-columns:1fr}.menu-v3 .hero-play{min-height:205px;padding:23px}.menu-v3 .hero-mini{right:22px;bottom:20px}.menu-v3 .hero-orb{width:58px;height:58px;font-size:32px}.menu-v3 .menu-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-v3 .menu-actions .menu-tile{min-height:94px}.menu-v3 .menu-footer{align-items:flex-end}.menu-v3 .menu-footer .footer-hint{max-width:170px}}
 
+
+/* STARFALL DASH — Figma HUD pass */
+#game-wrap{background:radial-gradient(circle at 50% 38%,rgba(34,102,150,.10),transparent 30%),radial-gradient(circle at 12% 88%,rgba(124,74,210,.09),transparent 28%)}
+#hud{top:18px;left:24px;right:24px;transform:none;width:auto;max-width:none;min-height:64px;padding:10px 16px;background:linear-gradient(180deg,rgba(9,18,38,.88),rgba(5,10,25,.78));border:1px solid rgba(112,214,255,.24);border-radius:16px;box-shadow:0 14px 42px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);gap:14px}
+#hud::before{content:'STARFALL // DASH';display:block;color:#7cecff;font-size:12px;font-weight:900;letter-spacing:1.8px;margin-right:10px;text-shadow:0 0 12px rgba(124,236,255,.35)}
+.hud-item{min-height:38px;padding:0 11px;border:1px solid rgba(138,180,255,.12);border-radius:10px;background:rgba(255,255,255,.025);gap:7px}
+#hud-lives{border-color:rgba(255,92,122,.16);background:rgba(255,92,122,.035)}
+.hud-icon{font-size:15px}.hud-val{font-size:14px;text-shadow:0 0 12px currentColor}
+#hud-score{border-color:rgba(255,217,61,.18);background:rgba(255,217,61,.035)}
+#hud-level{border-color:rgba(156,107,255,.18);background:rgba(156,107,255,.035)}
+#hud-mode{padding:8px 12px!important;border-radius:9px!important;font-size:10px!important;letter-spacing:1.2px!important;background:rgba(79,195,247,.08)!important}
+#hud-timer{min-width:58px;padding:0 10px;font-size:14px;color:#e8f8ff;text-align:center}
+#hud-progress{width:120px;height:8px;border-radius:5px;background:rgba(0,0,0,.45);border:1px solid rgba(124,236,255,.2);box-shadow:inset 0 1px 4px rgba(0,0,0,.45)}
+#hud-progress-fill{box-shadow:0 0 14px rgba(79,195,247,.8)}
+#buff-strip{margin-left:auto;min-width:0}
+#hud-combo{top:94px;border-radius:10px;padding:8px 18px;letter-spacing:1px;box-shadow:0 0 32px rgba(255,217,61,.55)}
+#btn-pause{top:94px;right:24px;width:40px;height:40px;border-radius:10px;background:rgba(8,18,38,.72);border:1px solid rgba(124,236,255,.3);box-shadow:0 8px 24px rgba(0,0,0,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#btn-pause:hover{border-color:rgba(124,236,255,.75);box-shadow:0 0 22px rgba(124,236,255,.18)}
+canvas{filter:drop-shadow(0 18px 42px rgba(0,0,0,.38))}
+@media (pointer:coarse),(max-width:800px){#hud{top:8px;left:8px;right:8px;min-height:48px;padding:6px 8px;gap:6px;border-radius:12px}#hud::before{font-size:9px;letter-spacing:1px;margin-right:2px}.hud-item{min-height:32px;padding:0 7px}.hud-val{font-size:11px}.hud-icon{font-size:12px}#hud-progress{width:50px}#hud-mode{padding:6px 7px!important;font-size:8px!important}#hud-timer{font-size:11px;min-width:42px;padding:0 4px}#btn-pause{top:62px;right:10px;width:36px;height:36px}}
 </style>
 </head>
 <body>
