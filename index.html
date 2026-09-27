@@ -6489,7 +6489,13 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
 
     // Уборка врагов
     enemies = enemies.filter(function(en) {
-        if (en.hp <= 0) return false;
+        if (en.hp <= 0) {
+            if (!en._sfDeathVfx) {
+                en._sfDeathVfx = true;
+                sfSpawnDeathBurst(en.x + en.size/2, en.y + en.size/2, en.size*.7, (en.t && en.t.glow) || '#ff5c7a', 'enemy');
+            }
+            return false;
+        }
         if (en.y >= canvas.height + 30) {
     // 🔧 ФИКС: не даём бомберу убить игрока после его смерти
     if (en.t.explodes && lives > 0 && !gameOver) explodeBomber(en, true);
@@ -7197,7 +7203,45 @@ function sfDashCinematic(now){
     ctx.restore();
 }
 
+var sfDeathBursts = [];
+
+function sfSpawnDeathBurst(x,y,r,color,kind){
+    var count = kind === 'boss' ? 42 : 20;
+    var burst = {x:x,y:y,r:r,color:color||'#7cecff',kind:kind||'enemy',life:1,shock:0,parts:[]};
+    for(var i=0;i<count;i++){
+        var a=Math.random()*Math.PI*2, sp=(kind==='boss'?2.5:1.4)+Math.random()*(kind==='boss'?6:4.2);
+        burst.parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,size:(kind==='boss'?2.5:1.5)+Math.random()*4,rot:Math.random()*6.28,spin:(Math.random()-.5)*.35});
+    }
+    sfDeathBursts.push(burst);
+    if(sfDeathBursts.length>18) sfDeathBursts.shift();
+    screenShake=Math.max(screenShake,kind==='boss'?22:7);
+    addParticles(x,y,color||'#7cecff',kind==='boss'?50:18,kind==='boss'?22:10);
+}
+
+function sfDrawDeathBursts(t){
+    var time=t*.001;
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var i=sfDeathBursts.length-1;i>=0;i--){
+        var b=sfDeathBursts[i],age=1-b.life;
+        b.life-=b.kind==='boss'?.018:.028;
+        if(b.life<=0){sfDeathBursts.splice(i,1);continue;}
+        b.shock=Math.min(1,b.shock+.055);
+        var cx=b.x,cy=b.y,rad=b.r*(.35+b.shock*1.8);
+        ctx.globalAlpha=Math.max(0,b.life*.75);ctx.strokeStyle=b.color;ctx.lineWidth=3+b.r*.025;ctx.shadowColor=b.color;ctx.shadowBlur=22;
+        ctx.beginPath();ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.stroke();
+        ctx.globalAlpha=Math.max(0,b.life*.22);ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(cx,cy,b.r*(1.1-age*.7),0,Math.PI*2);ctx.fill();
+        for(var j=0;j<b.parts.length;j++){
+            var p=b.parts[j];p.x+=p.vx;p.y+=p.vy;p.vx*=.965;p.vy*=.965;p.vy+=.035;p.rot+=p.spin;
+            ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=Math.max(0,b.life*(.7+Math.sin(time*8+j)*.15));
+            ctx.fillStyle=j%3===0?'#fff':b.color;ctx.shadowColor=b.color;ctx.shadowBlur=12;
+            ctx.fillRect(-p.size*.5,-p.size*.5,p.size*(1.8+Math.sin(j)*.5),p.size);ctx.restore();
+        }
+    }
+    ctx.restore();
+}
+
 function sfDrawCombatFX(t) {
+    sfDrawDeathBursts(t);
     var w=canvas.width,h=canvas.height,time=t*.001; ctx.save(); ctx.globalCompositeOperation='lighter';
     sfDashCinematic(t);
     var vx=player.vx||0,vy=player.vy||0,speed=Math.hypot(vx,vy);
