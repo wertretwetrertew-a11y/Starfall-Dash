@@ -6582,6 +6582,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             boss.shootTimer--;
             if (boss.shootTimer <= 0) {
                 boss.shootTimer = 60 - boss.phase * 12;
+                sfSpawnBossAttackFX(boss,'dragon');
                 var dbx = boss.x + boss.size / 2, dby = boss.y + boss.size / 2;
                 for (var d2 = -boss.phase; d2 <= boss.phase; d2++) {
                     spawnEnemyBullet(dbx, dby + 20, d2 * 1.5, 3.5, { color: '#ff5252', size: 9 });
@@ -6593,6 +6594,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             boss.shootTimer--;
             if (boss.shootTimer <= 0) {
                 boss.shootTimer = 80 - boss.phase * 15;
+                sfSpawnBossAttackFX(boss,'titan');
                 var tbx = boss.x + boss.size / 2, tby = boss.y + boss.size / 2;
                 for (var t1 = -2; t1 <= 2; t1++) {
                     spawnEnemyBullet(tbx, tby + 20, t1 * 1.2, 2.5, { color: '#00e5ff', size: 10 });
@@ -6611,6 +6613,7 @@ if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id
             boss.shootTimer--;
             if (boss.shootTimer <= 0) {
                 boss.shootTimer = 50 - boss.phase * 10;
+                sfSpawnBossAttackFX(boss,'devourer');
                 var vbx = boss.x + boss.size / 2, vby = boss.y + boss.size / 2;
                 for (var v1 = 0; v1 < 12; v1++) {
                     var va = (v1 / 12) * Math.PI * 2 + boss.wobble;
@@ -7233,6 +7236,39 @@ function sfDrawAttackTelegraphs(t){
     ctx.restore();
 }
 
+var sfBossAttackFX = [];
+function sfSpawnBossAttackFX(boss,kind){
+    var cx=boss.x+boss.size/2,cy=boss.y+boss.size/2,dx=px-cx,dy=py-cy,len=Math.hypot(dx,dy)||1;
+    sfBossAttackFX.push({kind:kind,x:cx,y:cy,dx:dx/len,dy:dy/len,size:boss.size,life:1,rot:Math.atan2(dy,dx),phase:boss.phase||1});
+    if(sfBossAttackFX.length>12) sfBossAttackFX.shift();
+}
+function sfDrawBossAttackFX(t){
+    var time=t*.001;ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var i=sfBossAttackFX.length-1;i>=0;i--){
+        var a=sfBossAttackFX[i];a.life-=.055;
+        if(a.life<=0){sfBossAttackFX.splice(i,1);continue;}
+        var cx=a.x,cy=a.y,r=a.size*.5,p=1-a.life;ctx.lineCap='round';
+        if(a.kind==='dragon'){
+            ctx.save();ctx.translate(cx,cy);ctx.rotate(a.rot);ctx.shadowColor='#ff5252';ctx.shadowBlur=22;
+            ctx.globalAlpha=a.life*.3;ctx.fillStyle='#ff5252';ctx.beginPath();ctx.moveTo(r*.1,-r*.16);ctx.lineTo(r*5.2,-r*(.65+p*.45));ctx.lineTo(r*5.2,r*(.65+p*.45));ctx.closePath();ctx.fill();
+            ctx.globalAlpha=a.life*.9;ctx.strokeStyle='#ffb3b3';ctx.lineWidth=3;
+            for(var d=0;d<3;d++){var sp=(d-1)*(.18+p*.18);ctx.beginPath();ctx.moveTo(r*.12,sp*r);ctx.lineTo(r*(3.8+p*1.2),sp*r*(3.5+p));ctx.stroke();}
+            ctx.restore();
+        }else if(a.kind==='titan'){
+            ctx.shadowColor='#00e5ff';ctx.shadowBlur=24;ctx.strokeStyle='#00e5ff';
+            ctx.globalAlpha=a.life*.55;ctx.lineWidth=5;
+            for(var k=0;k<3;k++){var off=(k-1)*r*.22;ctx.beginPath();ctx.moveTo(cx+off,cy+r*.35);ctx.lineTo(cx+off,canvas.height);ctx.stroke();}
+            ctx.globalAlpha=a.life*.2;ctx.lineWidth=18;ctx.beginPath();ctx.moveTo(cx,cy+r*.35);ctx.lineTo(cx,canvas.height);ctx.stroke();
+            ctx.globalAlpha=a.life*.45;ctx.lineWidth=2;
+            for(var s=0;s<7;s++){var yy=cy+r*(.55+s*.42+p*.7);ctx.beginPath();ctx.moveTo(cx-r*.65,yy);ctx.lineTo(cx+r*.65,yy);ctx.stroke();}
+        }else if(a.kind==='devourer'){
+            ctx.save();ctx.translate(cx,cy);ctx.strokeStyle='#e040fb';ctx.shadowColor='#e040fb';ctx.shadowBlur=22;
+            for(var v=0;v<5;v++){var rr=r*(.35+v*.22+p*.8),arc=time*2.4+v*.9;ctx.globalAlpha=a.life*(.48-v*.055);ctx.lineWidth=3+v*.5;ctx.beginPath();ctx.arc(0,0,rr,arc,arc+Math.PI*1.35);ctx.stroke();}
+            ctx.globalAlpha=a.life*.8;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,r*(.12+p*.18),0,Math.PI*2);ctx.fill();ctx.restore();
+        }
+    }ctx.restore();
+}
+
 var sfImpactPulse = 0;
 var sfDashPulse = 0;
 
@@ -7300,6 +7336,7 @@ function sfDrawDeathBursts(t){
 function sfDrawCombatFX(t) {
     sfDrawDeathBursts(t);
     sfDrawAttackTelegraphs(t);
+    sfDrawBossAttackFX(t);
     sfDrawImpactFX(t);
     var w=canvas.width,h=canvas.height,time=t*.001; ctx.save(); ctx.globalCompositeOperation='lighter';
     sfDashCinematic(t);
