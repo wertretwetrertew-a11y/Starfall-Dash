@@ -1764,9 +1764,9 @@ var MODES = {
 // ===== ЯДРО =====
 var CORE_STATS = {
     vitality: { id:'vitality', name:'Живучесть', icon:'❤️', color:'#ff5c7a',
-        desc:'+1 HP за уровень', basePrice: 100, maxLevel: 5,
-        effect: function(lvl) { return lvl; },
-        format: function(lvl) { return '+' + lvl + ' HP'; } },
+    desc:'+1 HP за уровень. Максимум 3.', basePrice: 500, maxLevel: 3,
+    effect: function(lvl) { return lvl; },
+    format: function(lvl) { return '+' + lvl + ' HP'; } },
     speed: { id:'speed', name:'Скорость', icon:'⚡', color:'#7cffb2',
         desc:'+5% к скорости', basePrice: 120, maxLevel: 10,
         effect: function(lvl) { return 1 + lvl * 0.05; },
@@ -2418,13 +2418,18 @@ function getCoreStatPrice(statId) {
     var stat = CORE_STATS[statId];
     var s = getSave();
     var lvl = s.coreStats[statId] || 0;
-    return Math.floor(stat.basePrice * Math.pow(1.5, lvl));
+    // 🔧 ФИКС: для vitality цена растёт быстрее
+    var multiplier = (statId === 'vitality') ? 2.5 : 1.5;
+    return Math.floor(stat.basePrice * Math.pow(multiplier, lvl));
 }
 
 function getCoreStatCrystalPrice(statId) {
     var s = getSave();
     var lvl = s.coreStats[statId] || 0;
-    return Math.max(1, Math.floor(Math.pow(1.5, lvl)));
+    // 🔧 ФИКС: для vitality кристаллы дороже
+    var multiplier = (statId === 'vitality') ? 3 : 1.5;
+    var base = (statId === 'vitality') ? 5 : 1;
+    return Math.max(base, Math.floor(base * Math.pow(multiplier, lvl)));
 }
 
 function getCoreStatLevel(statId) {
@@ -4427,20 +4432,18 @@ if (typeof btnPause !== 'undefined' && btnPause) {
 if (typeof pauseResume !== 'undefined' && pauseResume) {
     pauseResume.addEventListener('click', function() { togglePause(); });
 }
-if (pauseMenu) {
-    pauseMenu.addEventListener('click', function() {
-        if (isChoosingUpgrade) return;
-        paused = false;
-        running = false;
-        gameOver = false;
-        pauseModal.classList.remove('open');
-        document.body.classList.remove('playing');
-        if (typeof finishRunSilent === 'function') finishRunSilent();
-        stopMusic();
-        startScreen.classList.remove('hidden');
-        updateMainMenuStats();
-    });
-}
+pauseMenu.addEventListener('click', function() {
+    if (isChoosingUpgrade) return;
+    paused = false;
+    running = false;
+    gameOver = false;
+    pauseModal.classList.remove('open');
+    document.body.classList.remove('playing');
+    if (typeof finishRunSilent === 'function') finishRunSilent();
+    stopMusic();
+    startScreen.classList.remove('hidden');
+    updateMainMenuStats();
+});
 
 // 🔧 ФИКС: обработчики gameover-кнопок перенесены с защитой
 if (goRestart) {
