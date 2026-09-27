@@ -1395,7 +1395,7 @@
         <div class="shop-container">
             <div class="shop-header">
                 <h2>🛒 Магазин</h2>
-                <div class="shop-bank">💰 <span id="shop-bank-val">0</span></div>
+                $1 • ✦ <span id="shop-shards-val">0</span>$2
             </div>
             <div class="shop-tabs">
                 <div class="shop-tab active" data-tab="skins">🎨 Скины</div>
@@ -1404,9 +1404,9 @@
                 <div class="shop-tab" data-tab="themes">🌌 Темы</div>
                 <div class="shop-tab" data-tab="cases">📦 Кейсы</div>
                 <div class="shop-tab" data-tab="sound">🔊 Звуки</div>
-                <div class="shop-tab" data-tab="music">🎵 Музыка</div>
-                <div class="shop-tab" data-tab="cards">🎴 Карты</div>
-                <div class="shop-tab" data-tab="achievements">🏆 Достижения</div>
+                <div class="shop-tab" data-tab="music">🎵 Музыка</div>$1
+                <div class="shop-tab" data-tab="collection">🧬 Коллекция</div>
+                <div class="shop-tab" data-tab="shards">✦ Осколки</div>$2🏆 Достижения</div>
             </div>
             <div class="shop-grid" id="shop-grid"></div>
             <button class="shop-close" id="shop-close">Готово</button>
@@ -1996,25 +1996,26 @@ var CARDS = {
 };
 
 var CASES = {
-    common: { id:'common', name:'Обычный кейс', icon:'🥉', price:300, desc:'Скин + шанс на карту',
+    common: { id:'common', name:'Обычный кейс', icon:'🥉', price:300, desc:'Скин + шанс на карту', pityLabel:'Rare', pityLimit:10, pityRarity:'rare',
         dropTable: [{ rarity:'common', chance:75 }, { rarity:'rare', chance:20 },
                     { rarity:'epic', chance:4 }, { rarity:'legendary', chance:1 }] },
-    rare: { id:'rare', name:'Редкий кейс', icon:'🥈', price:800, desc:'Скин + шанс на звук',
+    rare: { id:'rare', name:'Редкий кейс', icon:'🥈', price:800, desc:'Скин + шанс на звук', pityLabel:'Epic', pityLimit:12, pityRarity:'epic',
         dropTable: [{ rarity:'common', chance:30 }, { rarity:'rare', chance:50 },
                     { rarity:'epic', chance:17 }, { rarity:'legendary', chance:2.5 },
                     { rarity:'mythic', chance:0.5 }] },
-    epic: { id:'epic', name:'Эпический кейс', icon:'🥇', price:2000, desc:'Скин + шанс на музыку',
+    epic: { id:'epic', name:'Эпический кейс', icon:'🥇', price:2000, desc:'Скин + шанс на музыку', pityLabel:'Legendary', pityLimit:10, pityRarity:'legendary',
         dropTable: [{ rarity:'rare', chance:25 }, { rarity:'epic', chance:55 },
                     { rarity:'legendary', chance:17 }, { rarity:'mythic', chance:3 }] },
-    legendary: { id:'legendary', name:'Легендарный кейс', icon:'💎', price:4000, desc:'Топ-скин + карта + звук',
+    legendary: { id:'legendary', name:'Легендарный кейс', icon:'💎', price:4000, desc:'Топ-скин + карта + звук', pityLabel:'Mythic', pityLimit:12, pityRarity:'mythic',
         dropTable: [{ rarity:'rare', chance:5 }, { rarity:'epic', chance:30 },
                     { rarity:'legendary', chance:55 }, { rarity:'mythic', chance:10 }] },
-    mythic: { id:'mythic', name:'Мифический кейс', icon:'👑', price:10000, desc:'Гарантия mythic + всё',
+    mythic: { id:'mythic', name:'Мифический кейс', icon:'👑', price:10000, desc:'Гарантия mythic + всё', pityLabel:'Mythic', pityLimit:8, pityRarity:'mythic',
         dropTable: [{ rarity:'epic', chance:10 }, { rarity:'legendary', chance:40 },
                     { rarity:'mythic', chance:50 }] }
 };
 
-var DUPLICATE_REFUND = { common:50, rare:150, epic:400, legendary:1000, mythic:2500 };
+$1
+var DUPLICATE_SHARDS = { common:10, rare:25, epic:75, legendary:250, mythic:1000 };
 
 var DAILY_REWARDS = [
     { day:1, type:'gold', amount:300, icon:'💰', label:'300 золота' },
@@ -2269,7 +2270,8 @@ function makeDefaultSave() {
         ownedSoundPacks: ['classic'], equippedSoundPack: 'classic',
         ownedMusic: ['default'], equippedMusic: 'default',
         ownedCards: [],
-        openedCases: 0, totalRefund: 0, totalCoins: 0,
+        $1
+        casePity: { common:0, rare:0, epic:0, legendary:0, mythic:0 },
         freeCases: { common:0, rare:0, epic:0, legendary:0, mythic:0 },
         claimedAchievements: [],
         dailyStreak: 0, lastDailyClaim: null, dailyHistory: [],
@@ -2332,7 +2334,7 @@ function migrateSave(d) {
 
     if (!d.modesPlayed) { d.modesPlayed = []; changed = true; }
     if (!d.boosts) { d.boosts = { x2gold:0, shieldRun:0, startCoins:0, magnetRun:0, comboRun:0 }; changed = true; }
-    if (!d.freeCases) { d.freeCases = { common:0, rare:0, epic:0, legendary:0, mythic:0 }; changed = true; }
+    $1    if (!d.casePity) { d.casePity = { common:0, rare:0, epic:0, legendary:0, mythic:0 }; changed = true; }
 
     if (!d.rogueStats) {
         d.rogueStats = {
@@ -3733,7 +3735,8 @@ function makeCard(cls) {
 
 function renderShop() {
     var s = getSave();
-    shopBankVal.textContent = formatNumber(s.bank);
+    $1
+    var shardEl=document.getElementById('shop-shards-val'); if(shardEl) shardEl.textContent=formatNumber(s.starShards||0);
     shopGrid.innerHTML = '';
     if (currentShopTab === 'skins') renderSkins();
     else if (currentShopTab === 'items') renderItems();
@@ -3742,7 +3745,9 @@ function renderShop() {
     else if (currentShopTab === 'cases') renderCases();
     else if (currentShopTab === 'sound') renderSoundPacks();
     else if (currentShopTab === 'music') renderMusic();
-    else if (currentShopTab === 'cards') renderCards();
+    $1
+    else if (currentShopTab === 'collection') renderCollection();
+    else if (currentShopTab === 'shards') renderShardShop();
     else if (currentShopTab === 'achievements') renderAchievements();
 }
 
@@ -4030,6 +4035,8 @@ function renderCards() {
     });
 }
 
+function renderCollection(){var s=getSave(),g=[['🎨 Скины',s.ownedSkins,Object.keys(SKINS).length],['🔊 Звуки',s.ownedSoundPacks,Object.keys(SOUND_PACKS).length],['🎵 Музыка',s.ownedMusic,Object.keys(MUSIC_TRACKS).length],['🎴 Карты',s.ownedCards,Object.keys(CARDS).length],['🌌 Темы',s.ownedThemes,Object.keys(THEMES).length]];shopGrid.innerHTML='';g.forEach(function(x){var card=makeCard('rare');card.innerHTML='<div class="shop-name">'+x[0]+'</div><div class="shop-desc">'+x[1].length+' / '+x[2]+' собрано</div><div class="shop-price bought">'+Math.round(x[1].length/Math.max(1,x[2])*100)+'%</div>';shopGrid.appendChild(card)})}
+function renderShardShop(){var s=getSave(),offers=[['rare',100],['epic',500],['legendary',1500],['mythic',5000]];shopGrid.innerHTML='';offers.forEach(function(o){var card=makeCard(o[0]);card.innerHTML='<div class="shop-icon">✦</div><div class="shop-name">Новый '+o[0]+'</div><div class="shop-desc">Случайный новый предмет</div><div class="shop-price">✦ '+formatNumber(o[1])+'</div>';card.onclick=function(){if((s.starShards||0)<o[1])return showToast('Не хватает осколков!','error');var p=[];[[SKINS,s.ownedSkins],[SOUND_PACKS,s.ownedSoundPacks],[MUSIC_TRACKS,s.ownedMusic],[CARDS,s.ownedCards],[THEMES,s.ownedThemes]].forEach(function(g){Object.keys(g[0]).forEach(function(k){var x=g[0][k];if(x.rarity===o[0]&&g[1].indexOf(x.id)<0)p.push(x)})});if(!p.length)return showToast('Эта редкость полностью собрана!','info');s.starShards-=o[1];var x=p[Math.floor(Math.random()*p.length)];if(SKINS[x.id])s.ownedSkins.push(x.id);else if(SOUND_PACKS[x.id])s.ownedSoundPacks.push(x.id);else if(MUSIC_TRACKS[x.id])s.ownedMusic.push(x.id);else if(CARDS[x.id])s.ownedCards.push(x.id);else if(THEMES[x.id])s.ownedThemes.push(x.id);persist();renderShop();updateMainMenuStats();showToast('✦ Получено: '+x.name,'legendary')};shopGrid.appendChild(card)})}
 function renderAchievements() {
     var s = getSave();
     Object.keys(ACHIEVEMENTS).forEach(function(k) {
@@ -4233,6 +4240,8 @@ function openCase(caseId, isFree) {
     }
 
     s.openedCases++;
+    var pityCount=s.casePity[caseId]||0, pityHit=pityCount+1>=(c.pityLimit||999999);
+    s.casePity[caseId]=pityHit?0:pityCount+1;
     persist();
     updateMainMenuStats();
     updateShopBadges();
@@ -4246,6 +4255,7 @@ function openCase(caseId, isFree) {
         if (roll <= cum) { droppedRarity = c.dropTable[i].rarity; break; }
     }
 
+    if(pityHit && c.pityRarity) droppedRarity=c.pityRarity;
     var allPool = [];
     Object.keys(SKINS).forEach(function(k) {
         var sk = SKINS[k];
@@ -4283,6 +4293,7 @@ function openCase(caseId, isFree) {
         };
         s.bank += refund;
         s.totalRefund += refund;
+        s.starShards=(s.starShards||0)+(DUPLICATE_SHARDS[droppedRarity]||10);
         persist();
         updateMainMenuStats();
         showCaseAnimation(goldReward, caseId);
@@ -4305,6 +4316,7 @@ function openCase(caseId, isFree) {
         };
         s.bank += refundAmount;
         s.totalRefund += refundAmount;
+        s.starShards=(s.starShards||0)+(DUPLICATE_SHARDS[droppedRarity]||10);
         persist();
         updateMainMenuStats();
         showCaseAnimation(goldReward2, caseId);
