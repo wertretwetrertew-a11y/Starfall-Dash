@@ -4959,7 +4959,7 @@ function spawnBoss(bossId) {
         size: b.size,
         hp: b.hp, maxHp: b.hp,
         phase: 1, wobble: 0, shootTimer: 60, specialTimer: 0,
-        rotation: 0, hitFlash: 0, entering: true, defeatTimer: 0,
+        rotation: 0, hitFlash: 0, entering: true, defeatTimer: 0, attackCharge: 0, attackPulse: 0,
         reward: b.reward
     };
     bosses.push(boss);
@@ -7203,6 +7203,36 @@ function sfDashCinematic(now){
     ctx.restore();
 }
 
+var sfAttackBursts = [];
+
+function sfSpawnAttackBurst(x,y,r,color,kind){
+    sfAttackBursts.push({x:x,y:y,r:r,color:color||'#7cecff',kind:kind||'enemy',life:1,rot:Math.random()*6.28});
+    if(sfAttackBursts.length>20) sfAttackBursts.shift();
+}
+
+function sfDrawAttackTelegraphs(t){
+    var time=t*.001;
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var i=sfAttackBursts.length-1;i>=0;i--){
+        var a=sfAttackBursts[i]; a.life-=.045; a.rot+=.025;
+        if(a.life<=0){sfAttackBursts.splice(i,1);continue;}
+        var p=1-a.life,cx=a.x,cy=a.y,rr=a.r*(.25+p*1.15);
+        ctx.globalAlpha=Math.min(.55,a.life*.65);
+        ctx.strokeStyle=a.color;ctx.shadowColor=a.color;ctx.shadowBlur=18;
+        ctx.lineWidth=2.5;
+        ctx.beginPath();ctx.arc(cx,cy,rr,a.rot,a.rot+Math.PI*(.7+p*1.2));ctx.stroke();
+        ctx.globalAlpha=a.life*.18;ctx.fillStyle=a.color;
+        ctx.beginPath();ctx.arc(cx,cy,rr*.48,0,Math.PI*2);ctx.fill();
+        for(var q=0;q<6;q++){
+            var ang=a.rot+q*Math.PI/3;
+            ctx.globalAlpha=a.life*.22;
+            ctx.beginPath();ctx.moveTo(cx+Math.cos(ang)*rr*.55,cy+Math.sin(ang)*rr*.55);
+            ctx.lineTo(cx+Math.cos(ang)*rr*(1.15+p*.5),cy+Math.sin(ang)*rr*(1.15+p*.5));ctx.stroke();
+        }
+    }
+    ctx.restore();
+}
+
 var sfImpactPulse = 0;
 var sfDashPulse = 0;
 
@@ -7269,6 +7299,7 @@ function sfDrawDeathBursts(t){
 
 function sfDrawCombatFX(t) {
     sfDrawDeathBursts(t);
+    sfDrawAttackTelegraphs(t);
     sfDrawImpactFX(t);
     var w=canvas.width,h=canvas.height,time=t*.001; ctx.save(); ctx.globalCompositeOperation='lighter';
     sfDashCinematic(t);
@@ -7302,6 +7333,11 @@ function sfDrawCombatFX(t) {
         ctx.beginPath(); ctx.arc(bx,by,br*1.42*pulse,time*.7,time*.7+4.5); ctx.stroke();
         ctx.globalAlpha=.38; ctx.fillStyle=boss.type.c1||'#fff'; ctx.beginPath(); ctx.arc(bx,by,br*.15*pulse,0,Math.PI*2); ctx.fill();
         if((boss.hp||0)/(boss.maxHp||1)<.5){ sfVfxFrame(2,bx,by,br*2.15,.20+.08*Math.sin(time*6+bi),-time*.35,'lighter'); }
+        if((boss.attackCharge||0)>0){
+            ctx.globalAlpha=.18+.30*boss.attackCharge;
+            ctx.strokeStyle=boss.type.glow||'#fff';ctx.lineWidth=3+boss.attackCharge*4;ctx.shadowColor=boss.type.glow||'#fff';ctx.shadowBlur=24;
+            ctx.beginPath();ctx.arc(bx,by,br*(1.25+boss.attackCharge*.35),-time*2,-time*2+Math.PI*(1.2+boss.attackCharge*1.8));ctx.stroke();
+        }
     }
     ctx.globalCompositeOperation='source-over'; ctx.restore();
     var vg=ctx.createRadialGradient(w/2,h*.45,Math.min(w,h)*.18,w/2,h*.45,Math.max(w,h)*.72);
