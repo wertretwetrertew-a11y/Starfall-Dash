@@ -6821,10 +6821,19 @@ function sfDrawHeroAsset(skin,c,x,y,z,now){
     else if(name.indexOf('dark')>=0||name.indexOf('тём')>=0||name.indexOf('тем')>=0) hue=205;
     else if(name.indexOf('white')>=0||name.indexOf('бел')>=0) hue=180;
     var speed=Math.hypot(player.vx||0,player.vy||0);
-    var bob=Math.sin(now/105)*1.5;
+    var vx=player.vx||0, vy=player.vy||0;
+    var moving=speed>.35;
+    var state=player.dashing?'dash':(player.damageFlash>0?'hit':(Math.abs(vy)>1.4?'air':(moving?'run':'idle')));
+    var phase=now*.001;
+    var bob=state==='idle'?Math.sin(now/260)*2.2:(state==='run'?Math.sin(now/72)*1.5:Math.sin(now/105)*.8);
+    var squash=state==='dash'?1.10:(state==='hit'?.94:(state==='air'?1.035:1));
+    var stretch=state==='dash'?.92:(state==='hit'?1.06:(state==='air'?.98:1));
+    var lean=(player.tilt||0)*.45;
+    if(state==='dash') lean += Math.atan2(vy||0,vx||1)*.12;
     ctx.save();
     ctx.translate(x+z/2,y+z/2+bob);
-    ctx.rotate((player.tilt||0)*.45);
+    ctx.rotate(lean);
+    ctx.scale(squash,stretch);
     ctx.globalCompositeOperation='screen';
     ctx.globalAlpha=.26;
     ctx.filter='blur(10px)';
@@ -6834,7 +6843,14 @@ function sfDrawHeroAsset(skin,c,x,y,z,now){
     ctx.globalCompositeOperation='source-over';
     ctx.filter='saturate(1.45) hue-rotate('+hue+'deg)';
     ctx.shadowColor=glow;
-    ctx.shadowBlur=14+(player.dashing?14:0);
+    ctx.shadowBlur=14+(player.dashing?22:0)+(state==='hit'?18:0);
+    if(state==='hit'){
+        ctx.globalAlpha=.72+.22*Math.abs(Math.sin(now/32));
+        ctx.filter+=' contrast(1.25)';
+    }
+    if(state==='dash'){
+        ctx.globalAlpha=.92;
+    }
     ctx.drawImage(SF_HERO_ASSET,-z*.70,-z*.70,z*1.40,z*1.40);
     ctx.filter='none';
     ctx.shadowBlur=0;
@@ -6853,6 +6869,20 @@ function sfDrawHeroAsset(skin,c,x,y,z,now){
             ctx.closePath();
             ctx.fill();
         }
+    }
+    if(state==='run'){
+        ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.28;
+        ctx.strokeStyle=glow;ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.arc(0,z*.12,z*(.58+.05*Math.sin(now/80)),Math.PI*.12,Math.PI*.88);ctx.stroke();
+        ctx.restore();
+    } else if(state==='air'){
+        ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.22;
+        ctx.strokeStyle='#fff';ctx.lineWidth=2;
+        ctx.beginPath();ctx.arc(0,0,z*.64,-Math.PI*.9,-Math.PI*.1);ctx.stroke();ctx.restore();
+    } else if(state==='hit'){
+        ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.7;
+        ctx.strokeStyle='#fff';ctx.lineWidth=2.5;
+        ctx.beginPath();ctx.arc(0,0,z*.72,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
     ctx.restore();
     return true;
