@@ -6795,6 +6795,94 @@ function drawOrbitals() {
     });
 }
 
+
+/* === COSMIC NEON 2.0 — cinematic render pass === */
+function sfDrawWorldFX(theme, t) {
+    var w = canvas.width, h = canvas.height, time = t * 0.001;
+    ctx.save();
+    var pr = Math.min(w, h) * 0.19;
+    var px = w * 0.82 + Math.sin(time * 0.08) * 8, py = h * 0.20;
+    var pg = ctx.createRadialGradient(px - pr*.35, py - pr*.4, pr*.05, px, py, pr);
+    pg.addColorStop(0,'rgba(255,255,255,.95)'); pg.addColorStop(.16,'rgba(150,220,255,.52)');
+    pg.addColorStop(.58,'rgba(80,70,220,.25)'); pg.addColorStop(1,'rgba(20,10,80,0)');
+    ctx.globalCompositeOperation='screen'; ctx.fillStyle=pg;
+    ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.fill();
+    ctx.save(); ctx.translate(px,py); ctx.rotate(-.18); ctx.globalAlpha=.34;
+    ctx.strokeStyle=theme.glow||'#67ddff'; ctx.lineWidth=Math.max(2,pr*.025);
+    ctx.shadowColor=theme.glow||'#67ddff'; ctx.shadowBlur=14;
+    ctx.beginPath(); ctx.ellipse(0,0,pr*1.55,pr*.30,0,0,Math.PI*2); ctx.stroke(); ctx.restore();
+
+    for(var ng=0;ng<3;ng++){
+        var nx=w*(.18+ng*.31)+Math.sin(time*(.10+ng*.03))*35, ny=h*(.25+ng*.13);
+        var nr=Math.min(w,h)*(.22+ng*.035), neb=ctx.createRadialGradient(nx,ny,0,nx,ny,nr);
+        neb.addColorStop(0,ng===1?'rgba(255,80,180,.10)':'rgba(80,180,255,.09)');
+        neb.addColorStop(.45,'rgba(110,70,255,.045)'); neb.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=neb; ctx.beginPath(); ctx.arc(nx,ny,nr,0,Math.PI*2); ctx.fill();
+    }
+
+    ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=.48;
+    var horizon=h*.70;
+    for(var b=0;b<18;b++){
+        var bw=12+(b%5)*7, bh=22+((b*17)%70), bx=(b/18)*w-8;
+        ctx.fillStyle=b%3===0?'rgba(30,48,100,.72)':'rgba(10,18,55,.72)';
+        ctx.fillRect(bx,horizon-bh,bw,bh);
+        if(b%2===0){ctx.fillStyle='rgba(80,220,255,.42)';for(var wl=0;wl<3;wl++)ctx.fillRect(bx+3,horizon-bh+7+wl*12,2,4);}
+    }
+    ctx.globalAlpha=1;
+
+    for(var a=0;a<9;a++){
+        var ax=(a*173+time*(8+a*1.7))%(w+180)-90, ay=h*(.14+(a*37%48)/100), ar=7+(a%5)*4;
+        ctx.save(); ctx.translate(ax,ay); ctx.rotate(time*(.08+a*.013)); ctx.globalAlpha=.22+(a%3)*.08;
+        ctx.fillStyle='#111a3b'; ctx.strokeStyle=a%2?'rgba(100,170,255,.35)':'rgba(190,100,255,.30)';
+        ctx.lineWidth=1; ctx.shadowColor=a%2?'#277cff':'#9b4dff'; ctx.shadowBlur=8;
+        ctx.beginPath(); ctx.moveTo(-ar,-ar*.15); ctx.lineTo(-ar*.25,-ar); ctx.lineTo(ar*.72,-ar*.55);
+        ctx.lineTo(ar,ar*.15); ctx.lineTo(ar*.18,ar); ctx.lineTo(-ar*.75,ar*.58); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+    }
+
+    var gy=h-Math.max(46,h*.11), line=ctx.createLinearGradient(0,gy,w,gy);
+    line.addColorStop(0,'rgba(0,229,255,0)'); line.addColorStop(.28,'rgba(0,229,255,.35)');
+    line.addColorStop(.5,'rgba(255,255,255,.8)'); line.addColorStop(.72,'rgba(255,64,180,.35)');
+    line.addColorStop(1,'rgba(255,64,180,0)'); ctx.strokeStyle=line; ctx.lineWidth=2;
+    ctx.shadowColor=theme.glow||'#00e5ff'; ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(w,gy); ctx.stroke(); ctx.restore();
+}
+
+function sfDrawCombatFX(t) {
+    var w=canvas.width,h=canvas.height,time=t*.001; ctx.save(); ctx.globalCompositeOperation='lighter';
+    var vx=player.vx||0,vy=player.vy||0,speed=Math.hypot(vx,vy);
+    if(speed>1.2){
+        var pcx=player.x+player.size/2,pcy=player.y+player.size/2,dx=player.lastDirX||(vx/speed),dy=player.lastDirY||(vy/speed);
+        for(var s=0;s<8;s++){
+            var len=24+s*11+Math.sin(time*8+s)*7,off=(s-3.5)*7,sx=pcx-dx*(18+s*5)-dy*off,sy=pcy-dy*(18+s*5)+dx*off;
+            ctx.globalAlpha=Math.max(0,.42-s*.045); ctx.strokeStyle=s%2?'#7cecff':'#b38cff'; ctx.lineWidth=1+(7-s)*.22;
+            ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-dx*len,sy-dy*len); ctx.stroke();
+        }
+    }
+    for(var i=0;i<enemies.length;i++){
+        var e=enemies[i];
+        if((e.hitFlash||0)>0){
+            var ex=e.x+e.size/2,ey=e.y+e.size/2,er=e.size*.62;
+            ctx.globalAlpha=Math.min(.8,e.hitFlash*2);
+            for(var k=0;k<6;k++){
+                var aa=time*4+k*Math.PI/3; ctx.strokeStyle=k%2?'#fff':((e.t&&e.t.glow)||'#ff5c7a'); ctx.lineWidth=2;
+                ctx.beginPath(); ctx.moveTo(ex+Math.cos(aa)*er*.35,ey+Math.sin(aa)*er*.35);
+                ctx.lineTo(ex+Math.cos(aa)*er,ey+Math.sin(aa)*er); ctx.stroke();
+            }
+        }
+    }
+    for(var bi=0;bi<bosses.length;bi++){
+        var boss=bosses[bi],bx=boss.x+boss.size/2,by=boss.y+boss.size/2,br=boss.size*.5,pulse=1+Math.sin(time*5+bi)*.08;
+        ctx.globalAlpha=.20; ctx.strokeStyle=boss.type.glow||'#ff4d9d'; ctx.lineWidth=2;
+        ctx.shadowColor=boss.type.glow||'#ff4d9d'; ctx.shadowBlur=18;
+        ctx.beginPath(); ctx.arc(bx,by,br*1.42*pulse,time*.7,time*.7+4.5); ctx.stroke();
+        ctx.globalAlpha=.38; ctx.fillStyle=boss.type.c1||'#fff'; ctx.beginPath(); ctx.arc(bx,by,br*.15*pulse,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalCompositeOperation='source-over'; ctx.restore();
+    var vg=ctx.createRadialGradient(w/2,h*.45,Math.min(w,h)*.18,w/2,h*.45,Math.max(w,h)*.72);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(.72,'rgba(0,0,20,.05)'); vg.addColorStop(1,'rgba(0,0,10,.34)');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,w,h);
+}
+
 function draw() {
     ctx.save();
     if (screenShake > 0.5) {
@@ -6815,6 +6903,7 @@ function draw() {
     ctx.fillStyle = gradCache.background;
     ctx.fillRect(-30, -30, canvas.width + 60, canvas.height + 60);
     sfBackdrop(theme, performance.now());
+    sfDrawWorldFX(theme, performance.now());
 
     // Параллакс
     for (var psi = 0; psi < parallaxStars.length; psi++) {
@@ -6879,6 +6968,7 @@ function draw() {
     for (var ei = 0; ei < enemies.length; ei++) drawMonster(enemies[ei]);
     for (var bi = 0; bi < bosses.length; bi++) drawBoss(bosses[bi]);
     for (var bui = 0; bui < enemyBullets.length; bui++) drawEnemyBullet(enemyBullets[bui]);
+    sfDrawCombatFX(performance.now());
 
     // Тексты
     for (var fi = 0; fi < floatingTexts.length; fi++) {
