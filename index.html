@@ -150,6 +150,16 @@
         max-width: 96vw; max-height: 78vh;
         touch-action: none;
     }
+    /* Desktop: give the playfield much more screen space while preserving the mobile layout. */
+    @media (min-width: 801px) and (pointer: fine) {
+        canvas {
+            width: min(92vw, 1200px);
+            height: auto;
+            max-width: 92vw;
+            max-height: 88vh;
+            border-radius: 18px;
+        }
+    }
     #level-toast {
         position: absolute; top: 60px; left: 20px;
         padding: 10px 16px;
