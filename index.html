@@ -1114,6 +1114,27 @@
         margin-top: 6px;
     }
     .hidden { display: none !important; }
+
+    /* === STARFALL DASH — обновлённый главный экран === */
+    #start-screen.menu-v3 { background:radial-gradient(circle at 50% 32%,rgba(79,195,247,.10),transparent 28%),radial-gradient(circle at 15% 85%,rgba(156,107,255,.10),transparent 30%),rgba(4,5,18,.93); padding:22px 18px 18px; gap:12px; overflow-y:auto; justify-content:flex-start; }
+    .menu-v3 .menu-topbar{width:min(820px,96vw);display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px}
+    .menu-v3 .brand-block{text-align:left}.menu-v3 h1{margin:0;font-size:clamp(25px,5vw,40px);line-height:1;letter-spacing:1px;filter:drop-shadow(0 0 18px rgba(79,195,247,.18))}.menu-v3 h1 small{letter-spacing:3px;margin-top:7px}
+    .menu-v3 .profile-badge{position:static;flex-shrink:0;padding:8px 12px;background:rgba(255,255,255,.055);box-shadow:0 8px 24px rgba(0,0,0,.22)}
+    .menu-v3 .profile-badge:hover{border-color:rgba(79,195,247,.65);background:rgba(79,195,247,.10)}
+    .menu-v3 .stats-line{width:min(820px,96vw);justify-content:space-between;gap:8px;padding:9px 14px;border-radius:16px;background:rgba(8,10,30,.68);border-color:rgba(138,180,255,.18);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+    .menu-v3 .stats-line .sl-item{min-width:0;padding:3px 7px;border-radius:10px;background:rgba(255,255,255,.025)}
+    .menu-v3 .menu-layout{width:min(820px,96vw);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.85fr);gap:12px;align-items:stretch}
+    .menu-v3 .hero-play{position:relative;min-height:250px;overflow:hidden;border-radius:24px;border:2px solid rgba(79,195,247,.75);color:#fff;cursor:pointer;font-family:inherit;text-align:left;padding:28px;background:radial-gradient(circle at 82% 25%,rgba(156,107,255,.25),transparent 30%),radial-gradient(circle at 18% 85%,rgba(79,195,247,.20),transparent 36%),linear-gradient(145deg,rgba(25,65,105,.55),rgba(23,15,58,.72));box-shadow:inset 0 0 50px rgba(79,195,247,.07),0 18px 45px rgba(0,0,0,.3);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .menu-v3 .hero-play:hover{transform:translateY(-3px);border-color:#8be3ff;box-shadow:inset 0 0 55px rgba(79,195,247,.11),0 22px 55px rgba(0,0,0,.38)}.menu-v3 .hero-play:active{transform:scale(.99)}
+    .menu-v3 .hero-play::before{content:'✦';position:absolute;right:30px;top:20px;font-size:120px;line-height:1;color:rgba(255,255,255,.035);transform:rotate(12deg)}
+    .menu-v3 .hero-kicker{font-size:11px;font-weight:900;letter-spacing:2.5px;color:#8be3ff;margin-bottom:12px}.menu-v3 .hero-title{font-size:clamp(27px,5vw,42px);font-weight:950;letter-spacing:1px;margin-bottom:8px}
+    .menu-v3 .hero-sub{max-width:380px;color:#b9c9e8;font-size:13px;line-height:1.5;font-weight:650;margin-bottom:24px}.menu-v3 .hero-cta{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:13px;background:linear-gradient(135deg,#4fc3f7,#2196f3);box-shadow:0 8px 24px rgba(33,150,243,.28);font-size:15px;font-weight:950;letter-spacing:1px}
+    .menu-v3 .hero-mini{position:absolute;right:26px;bottom:24px;display:flex;flex-direction:column;align-items:center;opacity:.8}.menu-v3 .hero-orb{width:70px;height:70px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:39px;background:radial-gradient(circle at 35% 25%,#fff,#9c6bff 38%,#3d1b78 100%);box-shadow:0 0 32px rgba(156,107,255,.55);animation:menuFloat 3s ease-in-out infinite}.menu-v3 .hero-mini span{margin-top:6px;font-size:9px;font-weight:900;letter-spacing:1px;color:#9caed0}
+    @keyframes menuFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .menu-v3 .menu-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.menu-v3 .menu-actions .menu-tile{min-height:120px;border-radius:18px;padding:14px 10px}.menu-v3 .menu-actions .menu-tile .mt-icon{font-size:30px}.menu-v3 .menu-actions .menu-tile .mt-label{font-size:12px}.menu-v3 .menu-actions .menu-tile .mt-sub{font-size:9px}.menu-v3 .menu-actions .menu-tile.quick{grid-column:1/-1;min-height:82px}.menu-v3 .menu-actions .menu-tile.quick .mt-icon{font-size:27px}
+    .menu-v3 .menu-footer{width:min(820px,96vw);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px 0}.menu-v3 .menu-footer .footer-hint{color:#657594;font-size:10px;font-weight:700}.menu-v3 .menu-footer .bottom-row{margin:0}
+    @media(max-width:700px){#start-screen.menu-v3{padding-top:16px}.menu-v3 .menu-topbar{align-items:flex-start}.menu-v3 .profile-badge{max-width:145px}.menu-v3 .profile-badge .pb-nick{max-width:78px}.menu-v3 .stats-line{justify-content:center}.menu-v3 .stats-line .sl-item{flex:1 1 28%;justify-content:center}.menu-v3 .menu-layout{grid-template-columns:1fr}.menu-v3 .hero-play{min-height:205px;padding:23px}.menu-v3 .hero-mini{right:22px;bottom:20px}.menu-v3 .hero-orb{width:58px;height:58px;font-size:32px}.menu-v3 .menu-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-v3 .menu-actions .menu-tile{min-height:94px}.menu-v3 .menu-footer{align-items:flex-end}.menu-v3 .menu-footer .footer-hint{max-width:170px}}
+
 </style>
 </head>
 <body>
@@ -1270,78 +1291,37 @@
         <div class="core-grid" id="core-grid"></div>
     </div>
 
-    <div id="start-screen" class="hidden">
-        <div class="profile-badge" id="profile-badge">
-            <span class="pb-avatar">🎮</span>
-            <span class="pb-nick" id="pb-nick">Игрок</span>
-            <span style="font-size:12px;opacity:0.6;">▼</span>
+    <div id="start-screen" class="hidden menu-v3">
+        <div class="menu-topbar">
+            <div class="brand-block"><h1>✦ Starfall Dash ✦<small>ROGUELIKE 2.6</small></h1></div>
+            <div class="profile-badge" id="profile-badge"><span class="pb-avatar">🎮</span><span class="pb-nick" id="pb-nick">Игрок</span><span style="font-size:12px;opacity:0.6;">▼</span></div>
         </div>
-
-        <h1>✦ Starfall Dash ✦<small>ROGUELIKE 2.6</small></h1>
-
         <div class="stats-line">
-            <div class="sl-item">
-                <span>🏆</span>
-                <span class="sl-val" id="sl-best">0</span>
-            </div>
-            <div class="sl-item time">
-                <span>🕐</span>
-                <span class="sl-val" id="sl-time">0:00</span>
-            </div>
-            <div class="sl-item bank">
-                <span>💰</span>
-                <span class="sl-val" id="sl-bank">0</span>
-            </div>
-            <div class="sl-item crystal">
-                <span>💎</span>
-                <span class="sl-val" id="sl-crystals">0</span>
-            </div>
-            <div class="sl-item shards">
-                <span>✨</span>
-                <span class="sl-val" id="sl-shards">0</span>
-            </div>
-            <div class="sl-item lvl">
-                <span>📈</span>
-                <span class="sl-val" id="sl-lvl">1</span>
+            <div class="sl-item"><span>🏆</span><span class="sl-val" id="sl-best">0</span></div>
+            <div class="sl-item time"><span>🕐</span><span class="sl-val" id="sl-time">0:00</span></div>
+            <div class="sl-item bank"><span>💰</span><span class="sl-val" id="sl-bank">0</span></div>
+            <div class="sl-item crystal"><span>💎</span><span class="sl-val" id="sl-crystals">0</span></div>
+            <div class="sl-item shards"><span>✨</span><span class="sl-val" id="sl-shards">0</span></div>
+            <div class="sl-item lvl"><span>📈</span><span class="sl-val" id="sl-lvl">1</span></div>
+        </div>
+        <div class="menu-layout">
+            <button class="hero-play" id="tile-play">
+                <div class="hero-kicker">✦ НОВЫЙ ЗАБЕГ</div><div class="hero-title">▶ ИГРАТЬ</div>
+                <div class="hero-sub">Выбери режим и героя, собери билд и переживи как можно больше волн.</div>
+                <span class="hero-cta">НАЧАТЬ ЗАБЕГ <span>→</span></span>
+                <div class="hero-mini"><div class="hero-orb">🟣</div><span>STAR CORE</span></div>
+            </button>
+            <div class="menu-actions">
+                <button class="menu-tile core" id="tile-core"><div class="mt-icon">🌟</div><div class="mt-label">ЯДРО</div><div class="mt-sub">Прокачка</div><div class="mt-badge" id="core-badge" style="display:none;">0</div></button>
+                <button class="menu-tile shop" id="tile-shop"><div class="mt-icon">🛒</div><div class="mt-label">МАГАЗИН</div><div class="mt-sub">Предметы и скины</div></button>
+                <button class="menu-tile ach" id="tile-ach"><div class="mt-icon">🏆</div><div class="mt-label">ЦЕЛИ</div><div class="mt-sub">28 наград</div></button>
+                <button class="menu-tile daily" id="tile-daily"><div class="mt-icon">🎁</div><div class="mt-label">DAILY</div><div class="mt-sub">Ежедневный бонус</div></button>
+                <button class="menu-tile rogue quick" id="tile-quick"><div class="mt-icon">🎲</div><div class="mt-label">БЫСТРЫЙ ROGUE</div><div class="mt-sub">Сразу в рогалик</div></button>
             </div>
         </div>
-
-        <div class="menu-grid">            <button class="menu-tile play" id="tile-play">
-                <div class="mt-icon">▶</div>
-                <div class="mt-label">ИГРАТЬ</div>
-                <div class="mt-sub">Начать забег · выбрать режим и героя</div>
-            </button>
-            <button class="menu-tile core" id="tile-core">
-                <div class="mt-icon">🌟</div>
-                <div class="mt-label">ЯДРО</div>
-                <div class="mt-sub">Прокачка</div>
-                <div class="mt-badge" id="core-badge" style="display:none;">0</div>
-            </button>
-            <button class="menu-tile shop" id="tile-shop">
-                <div class="mt-icon">🛒</div>
-                <div class="mt-label">МАГАЗИН</div>
-            </button>
-            <button class="menu-tile ach" id="tile-ach">
-                <div class="mt-icon">🏆</div>
-                <div class="mt-label">ДОСТИЖЕНИЯ</div>
-                <div class="mt-sub">28 наград</div>
-            </button>
-            <button class="menu-tile daily" id="tile-daily">
-                <div class="mt-icon">🎁</div>
-                <div class="mt-label">БОНУС</div>
-                <div class="mt-sub">Ежедневно +💎</div>
-            </button>
-            <button class="menu-tile rogue" id="tile-quick" style="background:linear-gradient(135deg,rgba(124,255,178,0.15),rgba(27,94,32,0.1));border-color:#7cffb2;color:#7cffb2;">
-                <div class="mt-icon">🎲</div>
-                <div class="mt-label">РОГАЛИК</div>
-                <div class="mt-sub">Быстрый старт</div>
-            </button>
-        </div>
-
-        <div class="bottom-row">
-            <button class="icon-btn" id="btn-settings" title="Настройки">⚙️</button>
-            <button class="icon-btn" id="btn-help" title="Помощь">❓</button>
-            <span class="reset-link" id="reset-progress">Сбросить</span>
+        <div class="menu-footer">
+            <span class="footer-hint">💡 Совет: экспериментируй с апгрейдами — синергии меняют стиль игры.</span>
+            <div class="bottom-row"><button class="icon-btn" id="btn-settings" title="Настройки">⚙️</button><button class="icon-btn" id="btn-help" title="Помощь">❓</button><span class="reset-link" id="reset-progress">Сбросить</span></div>
         </div>
     </div>
 
