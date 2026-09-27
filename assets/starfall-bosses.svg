@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1152" height="384" viewBox="0 0 1152 384">
+<defs>
+<radialGradient id="red"><stop stop-color="#fff"/><stop offset=".16" stop-color="#ff8b9d"/><stop offset=".5" stop-color="#9b1748"/><stop offset="1" stop-color="#07030d"/></radialGradient>
+<radialGradient id="ice"><stop stop-color="#fff"/><stop offset=".16" stop-color="#9ff5ff"/><stop offset=".5" stop-color="#1b69b5"/><stop offset="1" stop-color="#030914"/></radialGradient>
+<radialGradient id="void"><stop stop-color="#fff"/><stop offset=".12" stop-color="#efb1ff"/><stop offset=".45" stop-color="#6b21a8"/><stop offset=".78" stop-color="#16062b"/><stop offset="1" stop-color="#010107"/></radialGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<!-- DRAGON -->
+<g transform="translate(192 192)" stroke="#ff6680" stroke-linejoin="round" stroke-linecap="round">
+<path d="M-92 15L-174-78-139 2-183 70-88 45M92 15L174-78 139 2 183 70 88 45" fill="#24091d" stroke-width="10"/>
+<path d="M-112 18L-151 133-76 91M112 18L151 133 76 91" fill="#320b26" stroke-width="9"/>
+<path d="M-112-20Q-91-145 0-160Q91-145 112-20L87 95Q0 151-87 95Z" fill="url(#red)" stroke-width="11"/>
+<path d="M-76-49Q0-101 76-49L59 35Q0 79-59 35Z" fill="#160a19" stroke="#ff9fb0" stroke-width="6"/>
+<path d="M-45-46L0-78 45-46" fill="none" stroke="#fff" opacity=".55" stroke-width="5"/>
+<circle cx="0" cy="16" r="34" fill="#fff" filter="url(#glow)"/><circle cx="0" cy="16" r="23" fill="#ff315a"/>
+<path d="M-28 18L-74 57M28 18L74 57" stroke="#fff" opacity=".6" stroke-width="4"/>
+</g>
+<!-- TITAN -->
+<g transform="translate(576 192)" stroke="#63e9ff" stroke-linejoin="round">
+<path d="M0-169L35-121 111-129 79-66 151-20 91 22 119 91 44 78 0 159-44 78-119 91-91 22-151-20-79-66-111-129-35-121Z" fill="url(#ice)" stroke-width="11"/>
+<path d="M-83-22Q0-101 83-22L66 66Q0 111-66 66Z" fill="#06182c" stroke="#a9f7ff" stroke-width="6"/>
+<path d="M-54-35L0-67 54-35" fill="none" stroke="#eaffff" stroke-width="5" opacity=".7"/>
+<circle cx="0" cy="22" r="39" fill="#fff" filter="url(#glow)"/><circle cx="0" cy="22" r="26" fill="#00d9ff"/>
+<path d="M-78 77L-133 128M78 77L133 128M-99-69L-139-116M99-69L139-116" stroke-width="15"/>
+</g>
+<!-- DEVOURER -->
+<g transform="translate(960 192)" stroke="#d778ff" stroke-linejoin="round">
+<circle r="162" fill="#21083d" stroke-width="10" opacity=".9"/>
+<circle r="126" fill="url(#void)" stroke-width="8"/>
+<circle r="73" fill="#000" stroke="#f0b3ff" stroke-width="7"/>
+<circle r="47" fill="#020207"/>
+<path d="M-155-12Q-91-151 26-142Q137-133 160-22Q86-84 0-66Q-83-48-155-12Z" fill="#8a32c7" opacity=".48" stroke="none"/>
+<path d="M-158 27Q-80 101 11 72Q91 45 158 9Q104 126-7 147Q-123 155-158 27Z" fill="#5b1c9a" opacity=".5" stroke="none"/>
+<circle cx="-25" cy="-8" r="7" fill="#fff" filter="url(#glow)"/><circle cx="25" cy="-8" r="7" fill="#fff" filter="url(#glow)"/>
+<path d="M-116-82L-175-118M116-82L175-118M-116 82L-175 118M116 82L175 118" stroke-width="9"/>
+</g>
+</svg>
