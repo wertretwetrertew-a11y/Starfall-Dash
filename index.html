@@ -5250,14 +5250,7 @@ waveStartBtn.addEventListener('click', function() {
     noHitWaveDamage = 0;
     resetFrameClock();  // 🔧 ФИКС
     updateHUD();
-
-    // 🔧 ФИКС: после волны показать апгрейд
-    if (pendingUpgradeAfterWave) {
-        pendingUpgradeAfterWave = false;
-        setTimeout(function() {
-            if (!isChoosingUpgrade && running) showUpgradeChoice();
-        }, 200);
-    }
+    finishWaveAndShowUpgrade();
 });
 
 // ==========================================================
@@ -5277,6 +5270,20 @@ function startEliteWave() {
     }
 
     showWaveBanner(mod);
+}
+
+
+
+// 🔧 ФИКС: после закрытия волны — принудительно показать апгрейд
+function finishWaveAndShowUpgrade() {
+    if (pendingUpgradeAfterWave) {
+        pendingUpgradeAfterWave = false;
+        setTimeout(function() {
+            if (!isChoosingUpgrade && running && currentMode === 'rogue') {
+                showUpgradeChoice();
+            }
+        }, 250);
+    }
 }
 
 // ==========================================================
@@ -5402,7 +5409,10 @@ function reset() {
     rerollCost = 50;
     pendingUpgradeChoices = [];
     pendingRelicChoices = [];
-    pendingUpgradeAfterWave = false;  // 🔧 ФИКС
+    pendingUpgradeAfterWave = false; 
+    window._bossSpawned5 = false;
+    window._bossSpawned10 = false;
+    window._bossSpawned15 = false; // 🔧 ФИКС
 
     // Классовые бонусы
     if (mode.isRoguelike) {
@@ -5460,7 +5470,13 @@ function finishRunSilent() {
 // ==========================================================
 //   ЗАВЕРШЕНИЕ ИГРЫ
 // ==========================================================
+var _finishRunCalled = false;
+
 function finishRun() {
+    // 🔧 ФИКС: защита от двойного вызова
+    if (_finishRunCalled) return;
+    _finishRunCalled = true;
+    
     running = false;
     var s = getSave();
     runTime = Math.floor((performance.now() - runStartTime) / 1000);
@@ -5771,11 +5787,10 @@ function levelUp() {
     }
 
     // 🎲 ROGUELIKE
-    if (mode.isRoguelike) {
+       if (mode.isRoguelike) {
         if (level % 5 === 0 && level > 1) {
-            // 🔧 ФИКС: волна, апгрейд — после нажатия кнопки
-            startEliteWave();
             pendingUpgradeAfterWave = true;
+            startEliteWave();
         } else {
             showUpgradeChoice();
         }
@@ -5833,6 +5848,8 @@ function playerTakeDamage() {
 function update() {
     if (!running || gameOver || paused || isChoosingUpgrade) return;
     frame++;
+    // 🔧 ФИКС: защита от изменения running во время update
+    var _wasRunning = running;
 
     runTime = Math.floor((performance.now() - runStartTime) / 1000);
     var mode = MODES[currentMode];
@@ -5848,11 +5865,10 @@ function update() {
     } else {
         levelTimer--;
         if (levelTimer <= 0) {
-            // 🔧 ФИКС: сначала сбрасываем таймер, потом levelUp
             levelTimer = LEVEL_DURATION;
             levelUp();
-            // 🔧 Если открылась модалка — прерываем update
-            if (isChoosingUpgrade) return;
+            // 🔧 Если открылась модалка/волна — прерываем update
+            if (isChoosingUpgrade || !running) return;
         }
     }
 
@@ -6044,9 +6060,19 @@ function update() {
 
     // Боссы
     if (currentMode === 'classic' || currentMode === 'hardcore' || currentMode === 'rogue') {
-        if (level === BOSS_TYPES.dragon.level && !bosses.some(function(b){ return b.id === 'dragon'; }) && frame === 60) spawnBoss('dragon');
-        if (level === BOSS_TYPES.titan.level && !bosses.some(function(b){ return b.id === 'titan'; }) && frame === 60) spawnBoss('titan');
-        if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id === 'devourer'; }) && frame === 60) spawnBoss('devourer');
+       // Флаг для отслеживания, что босс этого уровня уже был заспавнен
+if (level === BOSS_TYPES.dragon.level && !bosses.some(function(b){ return b.id === 'dragon'; }) && !window._bossSpawned5) {
+    window._bossSpawned5 = true;
+    spawnBoss('dragon');
+}
+if (level === BOSS_TYPES.titan.level && !bosses.some(function(b){ return b.id === 'titan'; }) && !window._bossSpawned10) {
+    window._bossSpawned10 = true;
+    spawnBoss('titan');
+}
+if (level === BOSS_TYPES.devourer.level && !bosses.some(function(b){ return b.id === 'devourer'; }) && !window._bossSpawned15) {
+    window._bossSpawned15 = true;
+    spawnBoss('devourer');
+}
     }
 
     // Параллакс
@@ -6371,7 +6397,8 @@ function update() {
     enemies = enemies.filter(function(en) {
         if (en.hp <= 0) return false;
         if (en.y >= canvas.height + 30) {
-            if (en.t.explodes) explodeBomber(en, true);
+    // 🔧 ФИКС: не даём бомберу убить игрока после его смерти
+    if (en.t.explodes && lives > 0 && !gameOver) explodeBomber(en, true);
             var luckBonus = coreBonusCache.luck;
             if (mode.isRoguelike && runUpgrades.luck) luckBonus += runUpgrades.luck * 0.10;
             var rand = Math.random() + luckBonus;
